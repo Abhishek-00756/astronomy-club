@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import CelestialSystem, {
   type SpaceInteraction,
@@ -275,26 +275,32 @@ export default function SpaceScene() {
     scrollImpulse: 0,
   });
 
-  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    const impulse = THREE.MathUtils.clamp(
-      event.deltaY * 0.0018,
-      -1,
-      1
-    );
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      const impulse = THREE.MathUtils.clamp(
+        event.deltaY * 0.0018,
+        -1,
+        1
+      );
 
-    interaction.current.scrollImpulse += impulse;
-    interaction.current.scrollImpulse = THREE.MathUtils.clamp(
-      interaction.current.scrollImpulse,
-      -1.5,
-      1.5
-    );
-  };
+      interaction.current.scrollImpulse = THREE.MathUtils.clamp(
+        interaction.current.scrollImpulse + impulse,
+        -1.5,
+        1.5
+      );
+    };
+
+    window.addEventListener("wheel", handleWheel, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   return (
-    <div
-      className="absolute inset-0"
-      onWheel={handleWheel}
-    >
+    <div className="absolute inset-0">
       <Canvas
         camera={{
           position: [0, 0, 8],
