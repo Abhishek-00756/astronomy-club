@@ -8,9 +8,13 @@ import * as THREE from "three";
 const EARTH_TEXTURE =
   "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg";
 const EARTH_CLOUDS =
-  "https://threejs.org/examples/textures/planets/earth_clouds_1024.png";
+  "https://threejs.org/examples/textures/planets/earth_clouds_2048.png";
 const EARTH_NORMAL =
   "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg";
+const EARTH_SPECULAR =
+  "https://threejs.org/examples/textures/planets/earth_specular_2048.jpg";
+const EARTH_LIGHTS =
+  "https://threejs.org/examples/textures/planets/earth_lights_2048.png";
 const MOON_TEXTURE =
   "https://threejs.org/examples/textures/planets/moon_1024.jpg";
 
@@ -19,99 +23,97 @@ export type SpaceInteraction = {
 };
 
 function SatelliteModel() {
+  const beaconRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    if (!beaconRef.current) return;
+
+    const material = beaconRef.current.material as THREE.MeshBasicMaterial;
+
+    material.opacity =
+      0.32 + Math.max(0, Math.sin(state.clock.elapsedTime * 3.2)) * 0.5;
+  });
+
   return (
-    <group scale={0.22} rotation={[0.1, 0.25, -0.08]}>
-      {/* INSAT-3DS-inspired gold thermal body */}
+    <group scale={0.36} rotation={[0.08, 0.18, -0.05]}>
       <mesh>
-        <boxGeometry args={[1.15, 0.68, 0.68]} />
+        <boxGeometry args={[1.05, 0.7, 0.7]} />
         <meshStandardMaterial
-          color="#b38a4a"
+          color="#b9975a"
           metalness={0.72}
           roughness={0.28}
         />
       </mesh>
 
-      {/* White instrument modules */}
-      <mesh position={[-0.58, 0.08, 0]}>
-        <cylinderGeometry args={[0.22, 0.22, 0.5, 24]} />
+      <mesh position={[-0.58, 0.05, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.22, 0.22, 0.34, 32]} />
         <meshStandardMaterial
-          color="#d9dde2"
-          metalness={0.45}
-          roughness={0.42}
+          color="#dfe3e7"
+          metalness={0.6}
+          roughness={0.28}
         />
       </mesh>
 
-      <mesh position={[-0.58, -0.16, 0]}>
-        <cylinderGeometry args={[0.15, 0.15, 0.26, 24]} />
+      <mesh position={[0, 0.55, 0]}>
+        <boxGeometry args={[1.6, 0.055, 0.72]} />
         <meshStandardMaterial
-          color="#7b8188"
-          metalness={0.65}
-          roughness={0.35}
+          color="#123a72"
+          metalness={0.28}
+          roughness={0.32}
+          emissive="#071d3c"
+          emissiveIntensity={0.45}
         />
       </mesh>
 
-      {/* Solar panels */}
-      <mesh position={[0.02, 0.5, 0]}>
-        <boxGeometry args={[1.5, 0.05, 0.8]} />
+      <mesh position={[0, -0.55, 0]}>
+        <boxGeometry args={[1.6, 0.055, 0.72]} />
         <meshStandardMaterial
-          color="#163d6b"
-          metalness={0.32}
-          roughness={0.38}
+          color="#123a72"
+          metalness={0.28}
+          roughness={0.32}
+          emissive="#071d3c"
+          emissiveIntensity={0.45}
         />
       </mesh>
 
-      <mesh position={[0.02, -0.5, 0]}>
-        <boxGeometry args={[1.5, 0.05, 0.8]} />
-        <meshStandardMaterial
-          color="#163d6b"
-          metalness={0.32}
-          roughness={0.38}
-        />
-      </mesh>
-
-      {/* Central mast */}
-      <mesh position={[0.34, 0, 0.48]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.035, 0.035, 0.62, 16]} />
-        <meshStandardMaterial
-          color="#d5d8dc"
-          metalness={0.72}
-          roughness={0.3}
-        />
-      </mesh>
-
-      {/* Small high-gain dish */}
-      <group position={[0.36, 0, -0.56]} rotation={[Math.PI / 2.4, 0, 0]}>
+      <group position={[0.38, 0, -0.53]} rotation={[Math.PI / 2.25, 0, 0]}>
         <mesh>
           <sphereGeometry
-            args={[0.17, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2]}
+            args={[0.2, 28, 16, 0, Math.PI * 2, 0, Math.PI / 2]}
           />
           <meshStandardMaterial
-            color="#d7d9dd"
-            metalness={0.4}
-            roughness={0.45}
+            color="#e3e5e8"
+            metalness={0.42}
+            roughness={0.34}
             side={THREE.DoubleSide}
           />
         </mesh>
-
-        <mesh position={[0, 0.14, 0]}>
-          <cylinderGeometry args={[0.012, 0.012, 0.34, 12]} />
+        <mesh position={[0, 0.16, 0]}>
+          <cylinderGeometry args={[0.012, 0.012, 0.36, 12]} />
           <meshStandardMaterial
-            color="#dadde1"
-            metalness={0.65}
-            roughness={0.32}
+            color="#e0e3e7"
+            metalness={0.62}
+            roughness={0.28}
           />
         </mesh>
       </group>
 
-      {/* Simple antenna */}
-      <mesh position={[0.3, 0.16, 0.46]}>
-        <cylinderGeometry args={[0.012, 0.012, 0.38, 10]} />
-        <meshStandardMaterial
-          color="#c8ccd0"
-          metalness={0.7}
-          roughness={0.3}
+      <mesh ref={beaconRef} position={[0.45, 0.3, 0.35]}>
+        <sphereGeometry args={[0.045, 12, 12]} />
+        <meshBasicMaterial
+          color="#ffd878"
+          transparent
+          opacity={0.42}
+          toneMapped={false}
         />
       </mesh>
+
+      <pointLight
+        position={[0.45, 0.3, 0.35]}
+        intensity={0.8}
+        distance={1.8}
+        color="#ffd878"
+      />
     </group>
   );
 }
@@ -124,35 +126,34 @@ function SatelliteOrbit({
   const orbitRef = useRef<THREE.Group>(null);
   const satelliteRef = useRef<THREE.Group>(null);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!orbitRef.current || !satelliteRef.current) return;
 
-    interaction.scrollImpulse *= Math.pow(0.07, delta);
-
     const speed =
-      0.48 + THREE.MathUtils.clamp(interaction.scrollImpulse, -1.5, 1.5) * 1.55;
+      0.38 +
+      THREE.MathUtils.clamp(interaction.scrollImpulse, -1.5, 1.5) * 1.18;
 
     orbitRef.current.rotation.y += delta * speed;
 
-    satelliteRef.current.rotation.z += delta * 0.18;
+    satelliteRef.current.rotation.x =
+      Math.sin(state.clock.elapsedTime * 0.42) * 0.08;
+    satelliteRef.current.rotation.z =
+      Math.cos(state.clock.elapsedTime * 0.36) * 0.06;
   });
 
   return (
-    <group
-      ref={orbitRef}
-      rotation={[0.86, 0.38, -0.32]}
-    >
+    <group ref={orbitRef} rotation={[0.82, 0.36, -0.26]}>
       <mesh>
-        <torusGeometry args={[1.65, 0.006, 10, 192]} />
+        <torusGeometry args={[2.75, 0.006, 10, 256]} />
         <meshBasicMaterial
-          color="#72d9ff"
+          color="#7edfff"
           transparent
-          opacity={0.12}
+          opacity={0.105}
           toneMapped={false}
         />
       </mesh>
 
-      <group position={[1.65, 0, 0]} ref={satelliteRef}>
+      <group ref={satelliteRef} position={[2.75, 0, 0]}>
         <SatelliteModel />
       </group>
     </group>
@@ -165,14 +166,15 @@ function MoonSystem({
   interaction: SpaceInteraction;
 }) {
   const orbitRef = useRef<THREE.Group>(null);
-  const moonRef = useRef<THREE.Group>(null);
+  const moonRef = useRef<THREE.Mesh>(null);
   const moonTexture = useLoader(THREE.TextureLoader, MOON_TEXTURE);
 
   useFrame((_, delta) => {
     if (!orbitRef.current || !moonRef.current) return;
 
     const speed =
-      0.24 + THREE.MathUtils.clamp(interaction.scrollImpulse, -1.2, 1.2) * 0.72;
+      0.17 +
+      THREE.MathUtils.clamp(interaction.scrollImpulse, -1.2, 1.2) * 0.56;
 
     orbitRef.current.rotation.y += delta * speed;
     moonRef.current.rotation.y += delta * 0.08;
@@ -181,41 +183,38 @@ function MoonSystem({
   moonTexture.colorSpace = THREE.SRGBColorSpace;
 
   return (
-    <group ref={orbitRef} rotation={[0.38, -0.22, 0.18]}>
+    <group ref={orbitRef} rotation={[0.38, -0.22, 0.16]}>
       <mesh>
-        <torusGeometry args={[2.18, 0.004, 8, 224]} />
+        <torusGeometry args={[3.45, 0.0035, 8, 224]} />
         <meshBasicMaterial
-          color="#d7f6ff"
+          color="#e7f9ff"
           transparent
-          opacity={0.075}
+          opacity={0.055}
           toneMapped={false}
         />
       </mesh>
 
-      <Float
-        speed={0.65}
-        rotationIntensity={0.07}
-        floatIntensity={0.06}
-      >
-        <group ref={moonRef} position={[2.18, 0, 0]}>
-          <mesh>
-            <sphereGeometry args={[0.34, 48, 48]} />
+      <Float speed={0.55} rotationIntensity={0.045} floatIntensity={0.04}>
+        <group position={[3.45, 0, 0]}>
+          <mesh ref={moonRef}>
+            <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial
               map={moonTexture}
-              color="#d5d5d5"
-              roughness={0.92}
+              color="#ececec"
+              roughness={0.94}
               metalness={0}
             />
           </mesh>
 
-          <mesh scale={1.045}>
-            <sphereGeometry args={[0.34, 32, 32]} />
+          <mesh scale={1.055}>
+            <sphereGeometry args={[0.5, 40, 40]} />
             <meshBasicMaterial
-              color="#b7d5e0"
+              color="#d8f3ff"
               transparent
-              opacity={0.025}
+              opacity={0.035}
               side={THREE.BackSide}
               depthWrite={false}
+              blending={THREE.AdditiveBlending}
             />
           </mesh>
         </group>
@@ -232,15 +231,25 @@ export default function CelestialSystem({
   const systemRef = useRef<THREE.Group>(null);
   const earthRef = useRef<THREE.Mesh>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
+  const nightRef = useRef<THREE.Mesh>(null);
+
   const earthTexture = useLoader(THREE.TextureLoader, EARTH_TEXTURE);
   const cloudsTexture = useLoader(THREE.TextureLoader, EARTH_CLOUDS);
   const normalTexture = useLoader(THREE.TextureLoader, EARTH_NORMAL);
+  const specularTexture = useLoader(THREE.TextureLoader, EARTH_SPECULAR);
+  const lightsTexture = useLoader(THREE.TextureLoader, EARTH_LIGHTS);
 
   earthTexture.colorSpace = THREE.SRGBColorSpace;
   cloudsTexture.colorSpace = THREE.SRGBColorSpace;
+  lightsTexture.colorSpace = THREE.SRGBColorSpace;
 
   useFrame((state, delta) => {
-    if (!systemRef.current || !earthRef.current || !cloudsRef.current) {
+    if (
+      !systemRef.current ||
+      !earthRef.current ||
+      !cloudsRef.current ||
+      !nightRef.current
+    ) {
       return;
     }
 
@@ -250,82 +259,106 @@ export default function CelestialSystem({
       1.5
     );
 
-    const earthSpin = 0.13 + impulse * 0.52;
+    const earthSpin = 0.11 + impulse * 0.42;
 
     earthRef.current.rotation.y += delta * earthSpin;
-    cloudsRef.current.rotation.y += delta * (earthSpin * 1.07);
-
-    const targetTiltX = -0.07 + state.pointer.y * 0.11;
-    const targetTiltY = state.pointer.x * 0.19;
-
-    systemRef.current.rotation.x = THREE.MathUtils.lerp(
-      systemRef.current.rotation.x,
-      targetTiltX,
-      0.035
-    );
-
-    systemRef.current.rotation.y = THREE.MathUtils.lerp(
-      systemRef.current.rotation.y,
-      targetTiltY,
-      0.035
-    );
+    cloudsRef.current.rotation.y += delta * earthSpin * 1.035;
+    nightRef.current.rotation.y += delta * earthSpin;
 
     systemRef.current.position.x = THREE.MathUtils.lerp(
       systemRef.current.position.x,
-      state.pointer.x * 0.24,
+      state.pointer.x * 0.3,
       0.035
     );
 
     systemRef.current.position.y = THREE.MathUtils.lerp(
       systemRef.current.position.y,
-      -0.78 + state.pointer.y * 0.12,
+      -1.15 + state.pointer.y * 0.15,
+      0.035
+    );
+
+    systemRef.current.rotation.x = THREE.MathUtils.lerp(
+      systemRef.current.rotation.x,
+      -0.04 + state.pointer.y * 0.09,
+      0.035
+    );
+
+    systemRef.current.rotation.y = THREE.MathUtils.lerp(
+      systemRef.current.rotation.y,
+      state.pointer.x * 0.16,
       0.035
     );
   });
 
   return (
-    <group ref={systemRef} position={[0, -0.78, -3.25]}>
-      <Float
-        speed={0.38}
-        rotationIntensity={0.025}
-        floatIntensity={0.08}
-      >
+    <group ref={systemRef} position={[0, -1.15, -3.65]}>
+      <Float speed={0.24} rotationIntensity={0.012} floatIntensity={0.05}>
         <group>
-          {/* Earth */}
+          {/* High-detail Earth surface */}
           <mesh ref={earthRef}>
-            <sphereGeometry args={[1.08, 96, 96]} />
+            <sphereGeometry args={[1.58, 112, 112]} />
             <meshPhongMaterial
               map={earthTexture}
               normalMap={normalTexture}
-              normalScale={new THREE.Vector2(0.55, 0.55)}
-              color="#dfe8f2"
-              specular={new THREE.Color("#40617b")}
-              shininess={18}
+              normalScale={new THREE.Vector2(0.34, 0.34)}
+              specularMap={specularTexture}
+              specular={new THREE.Color("#6f879c")}
+              shininess={42}
+              color="#f4f8fc"
             />
           </mesh>
 
-          {/* Slow cloud layer */}
-          <mesh ref={cloudsRef} scale={1.012}>
-            <sphereGeometry args={[1.08, 64, 64]} />
+          {/* Night-side city lights */}
+          <mesh ref={nightRef} scale={1.008}>
+            <sphereGeometry args={[1.58, 96, 96]} />
+            <meshBasicMaterial
+              map={lightsTexture}
+              transparent
+              opacity={0.26}
+              depthWrite={false}
+              blending={THREE.AdditiveBlending}
+              toneMapped={false}
+            />
+          </mesh>
+
+          {/* Independent cloud shell */}
+          <mesh ref={cloudsRef} scale={1.015}>
+            <sphereGeometry args={[1.58, 96, 96]} />
             <meshPhongMaterial
               map={cloudsTexture}
               transparent
-              opacity={0.42}
+              opacity={0.28}
               depthWrite={false}
-              shininess={5}
+              color="#ffffff"
+              shininess={8}
             />
           </mesh>
 
-          {/* Blue atmospheric limb */}
+          {/* Main atmospheric limb */}
           <mesh scale={1.075}>
-            <sphereGeometry args={[1.08, 64, 64]} />
+            <sphereGeometry args={[1.58, 80, 80]} />
             <meshBasicMaterial
-              color="#73d9ff"
+              color="#72d8ff"
               transparent
-              opacity={0.085}
+              opacity={0.11}
               side={THREE.BackSide}
               depthWrite={false}
               blending={THREE.AdditiveBlending}
+              toneMapped={false}
+            />
+          </mesh>
+
+          {/* Wider, softer atmosphere */}
+          <mesh scale={1.12}>
+            <sphereGeometry args={[1.58, 64, 64]} />
+            <meshBasicMaterial
+              color="#5fc7ff"
+              transparent
+              opacity={0.022}
+              side={THREE.BackSide}
+              depthWrite={false}
+              blending={THREE.AdditiveBlending}
+              toneMapped={false}
             />
           </mesh>
         </group>
