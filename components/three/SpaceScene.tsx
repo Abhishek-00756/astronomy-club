@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import CelestialSystem, {
   type SpaceInteraction,
@@ -11,22 +11,19 @@ import CelestialSystem, {
 function MovingStars() {
   const pointsRef = useRef<THREE.Points>(null);
 
-  const { positions, sizes } = useMemo(() => {
+  const positions = useMemo(() => {
     const count = 2600;
-    const positions = new Float32Array(count * 3);
-    const sizes = new Float32Array(count);
+    const data = new Float32Array(count * 3);
 
     for (let i = 0; i < count; i += 1) {
       const i3 = i * 3;
 
-      positions[i3] = (Math.random() - 0.5) * 42;
-      positions[i3 + 1] = (Math.random() - 0.5) * 25;
-      positions[i3 + 2] = -90 + Math.random() * 94;
-
-      sizes[i] = 0.75 + Math.random() * 0.85;
+      data[i3] = (Math.random() - 0.5) * 42;
+      data[i3 + 1] = (Math.random() - 0.5) * 25;
+      data[i3 + 2] = -90 + Math.random() * 94;
     }
 
-    return { positions, sizes };
+    return data;
   }, []);
 
   useFrame((state, delta) => {
@@ -34,17 +31,14 @@ function MovingStars() {
 
     const positionAttribute =
       pointsRef.current.geometry.attributes.position;
-    const speed = 5.8;
 
     for (let i = 0; i < positionAttribute.count; i += 1) {
       const zIndex = i * 3 + 2;
       let z = positionAttribute.array[zIndex] as number;
 
-      z += delta * speed;
+      z += delta * 5.8;
 
-      if (z > 7) {
-        z = -90;
-      }
+      if (z > 7) z = -90;
 
       positionAttribute.array[zIndex] = z;
     }
@@ -53,14 +47,14 @@ function MovingStars() {
 
     pointsRef.current.position.x = THREE.MathUtils.lerp(
       pointsRef.current.position.x,
-      state.pointer.x * 0.22,
-      0.035
+      state.pointer.x * 0.2,
+      0.03
     );
 
     pointsRef.current.position.y = THREE.MathUtils.lerp(
       pointsRef.current.position.y,
-      state.pointer.y * 0.12,
-      0.035
+      state.pointer.y * 0.1,
+      0.03
     );
   });
 
@@ -73,20 +67,14 @@ function MovingStars() {
           array={positions}
           itemSize={3}
         />
-        <bufferAttribute
-          attach="attributes-aSize"
-          count={sizes.length}
-          array={sizes}
-          itemSize={1}
-        />
       </bufferGeometry>
 
       <pointsMaterial
         color="#ffffff"
-        size={0.055}
+        size={0.052}
         sizeAttenuation
         transparent
-        opacity={0.46}
+        opacity={0.34}
         depthWrite={false}
       />
     </points>
@@ -113,7 +101,7 @@ function CameraRig() {
       0.025
     );
 
-    state.camera.lookAt(0, -1.05, -2.95);
+    state.camera.lookAt(0, -0.95, -3);
   });
 
   return null;
@@ -168,9 +156,29 @@ export default function SpaceScene() {
     scrollImpulse: 0,
   });
 
-  useFrame((_, delta) => {
-    interaction.current.scrollImpulse *= Math.pow(0.08, delta);
-  });
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      const impulse = THREE.MathUtils.clamp(
+        event.deltaY * 0.0018,
+        -1,
+        1
+      );
+
+      interaction.current.scrollImpulse = THREE.MathUtils.clamp(
+        interaction.current.scrollImpulse + impulse,
+        -1.5,
+        1.5
+      );
+    };
+
+    window.addEventListener("wheel", handleWheel, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   return (
     <div className="absolute inset-0">
