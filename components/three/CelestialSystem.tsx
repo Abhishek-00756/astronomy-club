@@ -8,7 +8,7 @@ import * as THREE from "three";
 const EARTH_TEXTURE =
   "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg";
 const EARTH_CLOUDS =
-  "https://threejs.org/examples/textures/planets/earth_clouds_2048.png";
+  "https://threejs.org/examples/textures/planets/earth_clouds_1024.png";
 const EARTH_NORMAL =
   "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg";
 const EARTH_SPECULAR =
