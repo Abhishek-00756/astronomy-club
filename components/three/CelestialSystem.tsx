@@ -33,7 +33,7 @@ function SatelliteModel() {
   });
 
   return (
-    <group scale={0.48} rotation={[0.08, 0.18, -0.05]}>
+    <group scale={0.56} rotation={[0.08, 0.18, -0.05]}>
       <mesh>
         <boxGeometry args={[1.05, 0.7, 0.7]} />
         <meshStandardMaterial
@@ -143,7 +143,7 @@ function SatelliteOrbit({ interaction }: { interaction: SpaceInteraction }) {
   return (
     <group ref={orbitRef} rotation={[0.78, 0.38, -0.28]}>
       <mesh>
-        <torusGeometry args={[3.15, 0.006, 10, 256]} />
+        <torusGeometry args={[3.62, 0.006, 10, 256]} />
         <meshBasicMaterial
           color="#7edfff"
           transparent
@@ -152,7 +152,7 @@ function SatelliteOrbit({ interaction }: { interaction: SpaceInteraction }) {
         />
       </mesh>
 
-      <group ref={satelliteRef} position={[3.15, 0, 0]}>
+      <group ref={satelliteRef} position={[3.62, 0, 0]}>
         <SatelliteModel />
       </group>
     </group>
@@ -180,7 +180,7 @@ function MoonSystem({ interaction }: { interaction: SpaceInteraction }) {
   return (
     <group ref={orbitRef} rotation={[0.36, -0.2, 0.16]}>
       <mesh>
-        <torusGeometry args={[3.75, 0.0035, 8, 224]} />
+        <torusGeometry args={[4.25, 0.0035, 8, 224]} />
         <meshBasicMaterial
           color="#e7f9ff"
           transparent
@@ -190,9 +190,9 @@ function MoonSystem({ interaction }: { interaction: SpaceInteraction }) {
       </mesh>
 
       <Float speed={0.5} rotationIntensity={0.04} floatIntensity={0.035}>
-        <group position={[3.75, 0, 0]}>
+        <group position={[4.25, 0, 0]}>
           <mesh ref={moonRef}>
-            <sphereGeometry args={[0.52, 64, 64]} />
+            <sphereGeometry args={[0.48, 64, 64]} />
             <meshStandardMaterial
               map={moonTexture}
               color="#ededed"
@@ -202,7 +202,7 @@ function MoonSystem({ interaction }: { interaction: SpaceInteraction }) {
           </mesh>
 
           <mesh scale={1.055}>
-            <sphereGeometry args={[0.52, 40, 40]} />
+            <sphereGeometry args={[0.48, 40, 40]} />
             <meshBasicMaterial
               color="#d8f3ff"
               transparent
@@ -292,11 +292,11 @@ export default function CelestialSystem({
   });
 
   return (
-    <group ref={systemRef} position={[0, -1.85, -4]}>
+    <group ref={systemRef} position={[0, -2.45, -3.95]}>
       <Float speed={0.2} rotationIntensity={0.01} floatIntensity={0.035}>
         <group rotation={[0, -0.7, 0.02]}>
           <mesh ref={earthRef}>
-            <sphereGeometry args={[1.92, 128, 128]} />
+            <sphereGeometry args={[2.18, 128, 128]} />
             <meshPhongMaterial
               map={earthTexture}
               normalMap={normalTexture}
@@ -309,11 +309,11 @@ export default function CelestialSystem({
           </mesh>
 
           <mesh ref={nightRef} scale={1.006}>
-            <sphereGeometry args={[1.92, 112, 112]} />
+            <sphereGeometry args={[2.18, 112, 112]} />
             <meshBasicMaterial
               map={lightsTexture}
               transparent
-              opacity={0.19}
+              opacity={0.14}
               depthWrite={false}
               blending={THREE.AdditiveBlending}
               toneMapped={false}
@@ -325,7 +325,7 @@ export default function CelestialSystem({
             <meshPhongMaterial
               map={cloudsTexture}
               transparent
-              opacity={0.27}
+              opacity={0.23}
               depthWrite={false}
               color="#ffffff"
               shininess={10}
@@ -333,11 +333,11 @@ export default function CelestialSystem({
           </mesh>
 
           <mesh scale={1.045}>
-            <sphereGeometry args={[1.92, 96, 96]} />
+            <sphereGeometry args={[2.18, 96, 96]} />
             <meshBasicMaterial
               color="#70d8ff"
               transparent
-              opacity={0.075}
+              opacity={0.065}
               side={THREE.BackSide}
               depthWrite={false}
               blending={THREE.AdditiveBlending}
@@ -346,11 +346,11 @@ export default function CelestialSystem({
           </mesh>
 
           <mesh scale={1.09}>
-            <sphereGeometry args={[1.92, 72, 72]} />
+            <sphereGeometry args={[2.18, 72, 72]} />
             <meshBasicMaterial
               color="#5bc8ff"
               transparent
-              opacity={0.016}
+              opacity={0.012}
               side={THREE.BackSide}
               depthWrite={false}
               blending={THREE.AdditiveBlending}
