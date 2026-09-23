@@ -110,14 +110,29 @@ void main() {
   vec2 aspectUv = (vUv - 0.5);
   aspectUv.x *= 1.65;
 
-  // Very subtle pointer parallax, based on the React Bits-style interaction.
-  aspectUv += (uMouse - 0.5) * 0.08;
+  vec2 mouseOffset = (uMouse - 0.5);
+  mouseOffset.x *= 1.65;
+
+  // React Bits-style pointer response:
+  // the stars subtly bend/flow away from the cursor while the whole
+  // field shifts with it. The motion is intentionally restrained.
+  aspectUv += mouseOffset * 0.055;
+
+  vec2 fromMouse = aspectUv - mouseOffset * 0.35;
+  float mouseDistance = length(fromMouse);
+  float mouseInfluence = exp(-mouseDistance * mouseDistance * 4.2);
+
+  vec2 mouseDirection = normalize(fromMouse + vec2(0.0001));
+  aspectUv += mouseDirection * mouseInfluence * 0.075;
+  aspectUv += vec2(-mouseDirection.y, mouseDirection.x) *
+    mouseInfluence * 0.035;
 
   float radius = length(aspectUv);
   float angle = atan(aspectUv.y, aspectUv.x);
 
   // Gentle continuous rotation gives the field a living, drifting quality.
   angle += uTime * uSpeed * 0.055;
+  angle += mouseInfluence * 0.12;
 
   vec2 rotated = vec2(cos(angle), sin(angle)) * radius;
   rotated += vec2(0.0);
@@ -196,7 +211,7 @@ export default function GalaxyField() {
           uMouse: {
             value: new THREE.Vector2(0.5, 0.5),
           },
-          uIntensity: { value: 0.7 },
+          uIntensity: { value: 0.56 },
           uDensity: { value: 0.9 },
           uSpeed: { value: 0.8 },
         }}
