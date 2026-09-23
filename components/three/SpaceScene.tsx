@@ -11,34 +11,44 @@ import CelestialSystem, {
 function MovingStars() {
   const pointsRef = useRef<THREE.Points>(null);
 
-  const positions = useMemo(() => {
+  const { positions, baseZ, speeds } = useMemo(() => {
     const count = 2600;
-    const data = new Float32Array(count * 3);
+    const positions = new Float32Array(count * 3);
+    const baseZ = new Float32Array(count);
+    const speeds = new Float32Array(count);
 
     for (let i = 0; i < count; i += 1) {
       const i3 = i * 3;
+      const z = -90 + Math.random() * 97;
 
-      data[i3] = (Math.random() - 0.5) * 42;
-      data[i3 + 1] = (Math.random() - 0.5) * 25;
-      data[i3 + 2] = -90 + Math.random() * 94;
+      positions[i3] = (Math.random() - 0.5) * 42;
+      positions[i3 + 1] = (Math.random() - 0.5) * 25;
+      positions[i3 + 2] = z;
+
+      baseZ[i] = z;
+      speeds[i] = 4.8 + Math.random() * 2.6;
     }
 
-    return data;
+    return { positions, baseZ, speeds };
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (!pointsRef.current) return;
 
     const positionAttribute =
       pointsRef.current.geometry.attributes.position;
 
+    const elapsed = state.clock.elapsedTime;
+
     for (let i = 0; i < positionAttribute.count; i += 1) {
       const zIndex = i * 3 + 2;
-      let z = positionAttribute.array[zIndex] as number;
 
-      z += delta * 5.8;
+      // Compute position from the original depth + elapsed time.
+      // This prevents the star field from accumulating numerical drift
+      // and keeps the forward-flight loop continuous indefinitely.
+      let z = -90 + ((baseZ[i] + 90 + elapsed * speeds[i]) % 97);
 
-      if (z > 7) z = -90;
+      if (z > 7) z -= 97;
 
       positionAttribute.array[zIndex] = z;
     }
@@ -71,10 +81,10 @@ function MovingStars() {
 
       <pointsMaterial
         color="#ffffff"
-        size={0.052}
+        size={0.055}
         sizeAttenuation
         transparent
-        opacity={0.34}
+        opacity={0.42}
         depthWrite={false}
       />
     </points>
