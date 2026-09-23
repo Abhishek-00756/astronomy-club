@@ -5,13 +5,13 @@ export default function Home() {
     <main className="relative min-h-screen overflow-hidden bg-[#05070A]">
       <SpaceScene />
 
-      <div className="relative z-10 flex min-h-screen justify-center px-6 pt-[15vh] text-center text-white">
+      <div className="relative z-10 flex min-h-screen justify-center px-6 pt-[8vh] sm:pt-[9vh] md:pt-[10vh] text-center text-white">
         <div className="w-full max-w-5xl">
           <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/65 sm:text-xs md:text-sm">
             Army Institute of Technology • Pune
           </p>
 
-          <h1 className="text-5xl font-semibold tracking-[-0.055em] sm:text-6xl md:text-7xl lg:text-[6.8rem]">
+          <h1 className="text-5xl font-semibold tracking-[-0.055em] sm:text-6xl md:text-7xl lg:text-[6.35rem]">
             Astronomy
             <span className="block text-white/72">Club</span>
           </h1>
