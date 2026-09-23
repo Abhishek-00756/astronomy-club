@@ -4,9 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-import CelestialSystem, {
-  type SpaceInteraction,
-} from "./CelestialSystem";
+import CelestialSystem, {\n  type SpaceInteraction,\n} from "./CelestialSystem";\nimport GalaxyField from "./GalaxyField";
 
 function MovingStars() {
   const pointsRef = useRef<THREE.Points>(null);
@@ -124,7 +122,7 @@ function SpaceObjects({
 }) {
   return (
     <>
-      <MovingStars />
+      <GalaxyField />\n      <MovingStars />
 
       <Stars
         radius={110}
