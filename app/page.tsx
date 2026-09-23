@@ -5,7 +5,7 @@ export default function Home() {
     <main className="relative min-h-screen overflow-hidden bg-[#05070A]">
       <SpaceScene />
 
-      <div className="relative z-10 flex min-h-screen justify-center px-6 pt-[8vh] sm:pt-[9vh] md:pt-[10vh] text-center text-white">
+      <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[8vh] sm:pt-[9vh] md:pt-[10vh] text-center text-white">
         <div className="w-full max-w-5xl">
           <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/65 sm:text-xs md:text-sm">
             Army Institute of Technology • Pune
@@ -21,7 +21,7 @@ export default function Home() {
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <button className="rounded-full border border-cyan-200/35 bg-cyan-200/[0.06] px-7 py-3 text-xs font-medium uppercase tracking-[0.18em] text-cyan-50 transition duration-300 hover:border-cyan-100/50 hover:bg-cyan-200/[0.1]">
+            <button className="pointer-events-auto "rounded-full border border-cyan-200/35 bg-cyan-200/[0.06] px-7 py-3 text-xs font-medium uppercase tracking-[0.18em] text-cyan-50 transition duration-300 hover:border-cyan-100/50 hover:bg-cyan-200/[0.1]">
               Explore Events
             </button>
 
