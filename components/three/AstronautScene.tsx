@@ -7,12 +7,28 @@ import * as THREE from "three";
 
 function Astronaut() {
   const groupRef = useRef<THREE.Group>(null);
+  const { viewport } = useThree();
 
   useFrame((state) => {
     if (!groupRef.current) return;
 
-    const targetX = state.pointer.x * 0.34;
-    const targetY = state.pointer.y * 0.18;
+    const narrow = viewport.width < 7;
+    const baseX = narrow ? 0.85 : 2.05;
+    const baseY = narrow ? -1.55 : -0.52;
+    const targetX = baseX + state.pointer.x * (narrow ? 0.16 : 0.32);
+    const targetY = baseY + state.pointer.y * (narrow ? 0.08 : 0.16);
+
+    groupRef.current.position.x = THREE.MathUtils.lerp(
+      groupRef.current.position.x,
+      targetX,
+      0.035
+    );
+
+    groupRef.current.position.y = THREE.MathUtils.lerp(
+      groupRef.current.position.y,
+      targetY,
+      0.035
+    );
 
     groupRef.current.rotation.y = THREE.MathUtils.lerp(
       groupRef.current.rotation.y,
@@ -34,10 +50,10 @@ function Astronaut() {
   });
 
   return (
-    <group ref={groupRef} rotation={[0.02, -0.18, 0.05]} scale={1.45}>
+    <group ref={groupRef} position={[2.05, -0.52, -0.6]} rotation={[0.02, -0.18, 0.05]} scale={0.98}>
       {/* Helmet */}
-      <Float speed={1.1} rotationIntensity={0.05} floatIntensity={0.45}>
-        <group position={[0, 1.35, 0]}>
+      <Float speed={0.8} rotationIntensity={0.04} floatIntensity={0.28}>
+        <group position={[0, 1.25, 0]}>
           <mesh>
             <sphereGeometry args={[0.57, 48, 48]} />
             <meshStandardMaterial
@@ -254,17 +270,17 @@ export default function AstronautScene() {
         <color attach="background" args={["#05070A"]} />
         <fog attach="fog" args={["#05070A", 10, 30]} />
 
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={0.28} />
 
         <directionalLight
           position={[-4, 5, 5]}
-          intensity={4}
+          intensity={3.2}
           color="#f4f8ff"
         />
 
         <pointLight
           position={[3, 1, 3]}
-          intensity={2.5}
+          intensity={1.8}
           distance={12}
           color="#66dfff"
         />
@@ -272,8 +288,8 @@ export default function AstronautScene() {
         <Stars
           radius={45}
           depth={20}
-          count={1000}
-          factor={1.6}
+          count={650}
+          factor={1.3}
           saturation={0}
           fade
           speed={0.08}
