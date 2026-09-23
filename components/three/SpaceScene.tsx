@@ -56,15 +56,30 @@ function MovingStars() {
 
     positionAttribute.needsUpdate = true;
 
+    const targetX = state.pointer.x * 0.32;
+    const targetY = state.pointer.y * 0.18;
+
     pointsRef.current.position.x = THREE.MathUtils.lerp(
       pointsRef.current.position.x,
-      state.pointer.x * 0.2,
-      0.03
+      targetX,
+      0.035
     );
 
     pointsRef.current.position.y = THREE.MathUtils.lerp(
       pointsRef.current.position.y,
-      state.pointer.y * 0.1,
+      targetY,
+      0.035
+    );
+
+    pointsRef.current.rotation.z = THREE.MathUtils.lerp(
+      pointsRef.current.rotation.z,
+      state.pointer.x * 0.018,
+      0.03
+    );
+
+    pointsRef.current.rotation.x = THREE.MathUtils.lerp(
+      pointsRef.current.rotation.x,
+      -state.pointer.y * 0.012,
       0.03
     );
   });
