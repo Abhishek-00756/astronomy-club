@@ -10,6 +10,9 @@ export type MemberProfile = {
   initials: string;
   image?: string;
   note?: string;
+  bio?: string;
+  domain?: string;
+  regNo?: string;
 };
 
 type MemberGalleryProps = {
@@ -159,9 +162,21 @@ function MemberPhoto({
           <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
             {member.name}
           </h3>
-          <p className="mt-3 max-w-xs text-[10px] uppercase tracking-[0.16em] text-white/25">
-            {member.note ?? "Portrait will be added here"}
-          </p>
+          {member.domain && (
+            <p className="mt-3 max-w-xs text-[10px] uppercase tracking-[0.16em] text-cyan-100/38">
+              {member.domain}
+            </p>
+          )}
+          {member.bio && (
+            <p className="mt-2 max-w-xs text-xs leading-5 text-white/45">
+              {member.bio}
+            </p>
+          )}
+          {member.regNo && (
+            <p className="mt-2 text-[9px] uppercase tracking-[0.18em] text-white/22">
+              Reg. No. {member.regNo}
+            </p>
+          )}
         </div>
       </div>
     </article>
