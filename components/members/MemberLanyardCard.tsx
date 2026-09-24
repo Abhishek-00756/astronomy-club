@@ -10,6 +10,16 @@ type Props = {
   onClose: () => void;
 };
 
+function AtomMark() {
+  return (
+    <span className="relative inline-flex h-4 w-4 items-center justify-center text-white">
+      <span className="absolute h-3.5 w-1.5 rounded-full border border-white/90 rotate-[38deg]" />
+      <span className="absolute h-3.5 w-1.5 rounded-full border border-white/90 -rotate-[38deg]" />
+      <span className="h-1.5 w-1.5 rounded-full bg-white/95" />
+    </span>
+  );
+}
+
 export default function MemberLanyardCard({ member, onClose }: Props) {
   useEffect(() => {
     if (!member) return;
@@ -31,10 +41,11 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
     <AnimatePresence>
       {member && (
         <motion.div
-          className="fixed inset-0 z-[120] flex items-start justify-center overflow-y-auto bg-black/72 px-4 py-8 backdrop-blur-sm sm:py-12"
+          className="fixed inset-0 z-[120] flex min-h-screen items-start justify-center overflow-y-auto bg-[#06070b]/62 px-4 py-0 backdrop-blur-[2px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.22 }}
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) onClose();
           }}
@@ -43,108 +54,149 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
             type="button"
             onClick={onClose}
             aria-label="Close member profile"
-            className="fixed right-5 top-5 z-[130] flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-xl text-white/70 backdrop-blur hover:bg-white/10 hover:text-white"
+            className="fixed right-5 top-5 z-[130] flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/35 text-xl text-white/70 backdrop-blur-md transition hover:border-white/30 hover:bg-white/10 hover:text-white"
           >
             ×
           </button>
 
           <motion.div
-            initial={{ y: -85, rotate: -2.5, opacity: 0, scale: 0.94 }}
-            animate={{ y: 0, rotate: 0, opacity: 1, scale: 1 }}
-            exit={{ y: -30, rotate: 1.5, opacity: 0, scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 125, damping: 17 }}
-            className="mt-6 w-full max-w-xl origin-top sm:mt-8"
+            initial={{
+              y: -220,
+              rotate: -2.8,
+              opacity: 0,
+              scale: 0.94,
+            }}
+            animate={{
+              y: 0,
+              rotate: 0,
+              opacity: 1,
+              scale: 1,
+            }}
+            exit={{
+              y: -100,
+              rotate: 2,
+              opacity: 0,
+              scale: 0.97,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 105,
+              damping: 16,
+              mass: 1.05,
+            }}
+            className="relative w-full max-w-[31rem] origin-top"
           >
             <motion.div
-              animate={{ rotate: [-0.8, 0.8, -0.45, 0.35, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              animate={{
+                rotate: [-1.2, 1.25, -0.8, 0.55, 0],
+              }}
+              transition={{
+                duration: 5.8,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
               className="origin-top"
             >
-              <div className="mx-auto h-40 w-px bg-white/18" />
-              <div className="mx-auto -mt-1 h-8 w-8 rounded-full border border-white/20 bg-[#10131a]" />
-
-              <div className="mx-auto mt-2 overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#eef0f2] text-[#090b10] shadow-[0_35px_100px_rgba(0,0,0,.55)]">
-                <div className="relative h-64 overflow-hidden bg-[#cdd2d7] sm:h-72">
-                  {member.image ? (
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 640px) 92vw, 576px"
-                      quality={78}
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center bg-[linear-gradient(145deg,#d7dbe0,#939aa2)]">
-                      <span className="text-7xl font-semibold text-black/15">
-                        {member.initials}
-                      </span>
-                    </div>
-                  )}
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                  <div className="absolute left-5 right-5 top-5 flex justify-between text-[8px] font-semibold uppercase tracking-[0.28em] text-white/78">
-                    <span>Astronomy Club</span>
-                    <span>{member.id}</span>
-                  </div>
-
-                  <div className="absolute bottom-5 left-5">
-                    <p className="text-[9px] uppercase tracking-[0.25em] text-white/70">
-                      {member.category}
-                    </p>
-                    <p className="mt-1 text-sm text-white/90">{member.role}</p>
+              <div className="mx-auto flex w-12 flex-col items-center">
+                <div className="h-[5.5rem] w-[1.25rem] bg-[#050608] shadow-[0_0_0_1px_rgba(255,255,255,.03)] sm:h-28">
+                  <div className="flex h-full flex-col items-center justify-start gap-7 pt-4">
+                    <AtomMark />
+                    <AtomMark />
                   </div>
                 </div>
 
-                <div className="relative px-6 py-7 sm:px-8">
-                  <div className="absolute left-1/2 top-[-13px] h-7 w-7 -translate-x-1/2 rounded-full border-4 border-[#05070A] bg-[#12161e]" />
+                <div className="relative h-7 w-8 rounded-b-[0.65rem] border-2 border-[#08090d] bg-[#101218] shadow-[0_5px_18px_rgba(0,0,0,.45)]">
+                  <div className="absolute left-1/2 top-[-0.5rem] h-4 w-5 -translate-x-1/2 rounded-full border-2 border-[#08090d] bg-[#171921]" />
+                </div>
 
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-black/40">
-                    Member profile
-                  </p>
+                <div className="relative -mt-[0.1rem] h-5 w-2 rounded-b-full bg-[#0a0b10]" />
+              </div>
 
-                  <h2 className="mt-3 text-4xl font-semibold tracking-[-0.055em] sm:text-5xl">
-                    {member.name}
-                  </h2>
+              <div className="relative mx-auto mt-0 w-[min(88vw,31rem)]">
+                <div className="pointer-events-none absolute left-1/2 top-0 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-[4px] border-[#05070A] bg-[#12151c]" />
 
-                  {member.domain && (
-                    <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-black/50">
-                      {member.domain}
-                    </p>
-                  )}
-
-                  {member.bio && (
-                    <p className="mt-5 text-sm leading-7 text-black/60 sm:text-base">
-                      {member.bio}
-                    </p>
-                  )}
-
-                  <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-black/10 bg-black/[0.035] p-4">
-                      <p className="text-[8px] uppercase tracking-[0.2em] text-black/35">
-                        Role
-                      </p>
-                      <p className="mt-1 text-sm font-medium">{member.role}</p>
-                    </div>
-
-                    <div className="rounded-2xl border border-black/10 bg-black/[0.035] p-4">
-                      <p className="text-[8px] uppercase tracking-[0.2em] text-black/35">
-                        Member ID
-                      </p>
-                      <p className="mt-1 text-sm font-medium">{member.id}</p>
-                    </div>
-
-                    {member.regNo && (
-                      <div className="rounded-2xl border border-black/10 bg-black/[0.035] p-4 sm:col-span-2">
-                        <p className="text-[8px] uppercase tracking-[0.2em] text-black/35">
-                          Registration Number
-                        </p>
-                        <p className="mt-1 text-sm font-medium">
-                          {member.regNo}
-                        </p>
+                <div className="overflow-hidden rounded-[1.35rem] border border-black/8 bg-[#f0f1f2] text-[#0b0c10] shadow-[0_35px_90px_rgba(0,0,0,.5)] sm:rounded-[1.5rem]">
+                  <div className="relative h-72 overflow-hidden bg-[#cfd3d8] sm:h-[19rem]">
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        sizes="(max-width: 640px) 88vw, 496px"
+                        quality={78}
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-[linear-gradient(145deg,#d9dde2,#929aa3)]">
+                        <span className="text-7xl font-semibold tracking-[-0.08em] text-black/15">
+                          {member.initials}
+                        </span>
                       </div>
                     )}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/62 via-transparent to-transparent" />
+
+                    <div className="absolute left-5 right-5 top-5 flex items-center justify-between text-[8px] font-semibold uppercase tracking-[0.28em] text-white/80">
+                      <span>Astronomy Club</span>
+                      <span>{member.id}</span>
+                    </div>
+
+                    <div className="absolute bottom-5 left-5">
+                      <p className="text-[9px] uppercase tracking-[0.26em] text-white/72">
+                        {member.category}
+                      </p>
+                      <p className="mt-1 text-sm font-medium text-white/90">
+                        {member.role}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="relative px-6 pb-7 pt-7 sm:px-8 sm:pb-8">
+                    <div className="absolute left-1/2 top-[-1rem] h-8 w-8 -translate-x-1/2 rounded-full border-[4px] border-[#05070A] bg-[#11151d]" />
+
+                    <div className="flex items-start justify-between gap-6">
+                      <div>
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.3em] text-black/38">
+                          Member profile
+                        </p>
+
+                        <h2 className="mt-3 max-w-[22rem] text-[2.65rem] font-semibold leading-[0.96] tracking-[-0.06em] sm:text-5xl">
+                          {member.name}
+                        </h2>
+                      </div>
+
+                      <div className="mt-1 hidden text-black/20 sm:block">
+                        <AtomMark />
+                      </div>
+                    </div>
+
+                    {member.domain && (
+                      <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-black/50">
+                        {member.domain}
+                      </p>
+                    )}
+
+                    {member.bio && (
+                      <p className="mt-5 max-w-xl text-sm leading-6 text-black/60 sm:text-[15px] sm:leading-7">
+                        {member.bio}
+                      </p>
+                    )}
+
+                    <div className="mt-7 flex flex-wrap gap-2">
+                      <span className="rounded-full border border-black/10 bg-black/[0.035] px-3 py-2 text-[9px] font-medium uppercase tracking-[0.16em] text-black/50">
+                        {member.role}
+                      </span>
+
+                      <span className="rounded-full border border-black/10 bg-black/[0.035] px-3 py-2 text-[9px] font-medium uppercase tracking-[0.16em] text-black/50">
+                        {member.id}
+                      </span>
+
+                      {member.regNo && (
+                        <span className="rounded-full border border-black/10 bg-black/[0.035] px-3 py-2 text-[9px] font-medium uppercase tracking-[0.16em] text-black/50">
+                          Reg. {member.regNo}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
