@@ -34,6 +34,18 @@ export default function MemberGallery({ members }: MemberGalleryProps) {
       {rows.map((row, rowIndex) => (
         <GalleryRow key={row[0]?.id ?? rowIndex} members={row} />
       ))}
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:hidden">
+        {members.map((member, index) => (
+          <MemberPhoto
+            key={member.id}
+            member={member}
+            index={index}
+            active
+            onActivate={() => undefined}
+          />
+        ))}
+      </div>
     </div>
   );
 }
