@@ -3,9 +3,9 @@
 import { useState } from "react";
 import DitherVeil from "@/components/members/DitherVeil";
 import FlowingCategories from "@/components/members/FlowingCategories";
-import MemberGallery, {
+import MemberGalleryInteractive, {
   type MemberProfile,
-} from "@/components/members/MemberGallery";
+} from "@/components/members/MemberGalleryInteractive";
 import { secretaries } from "@/data/members/secretaries/members";
 import { teMembers } from "@/data/members/te/members";
 import { jointSecretaries } from "@/data/members/joint-secretaries/members";
@@ -142,7 +142,7 @@ export default function MembersDirectory({
           </p>
         </div>
 
-        <MemberGallery members={activeMembers} />
+        <MemberGalleryInteractive members={activeMembers} />
       </div>
     </>
   );
