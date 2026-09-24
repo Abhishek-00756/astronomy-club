@@ -42,15 +42,18 @@ function Astronaut() {
     const mouseX = state.pointer.x;
     const mouseY = state.pointer.y;
 
+    const idleX = Math.sin(state.clock.elapsedTime * 0.55) * (narrow ? 0.035 : 0.08);
+    const idleY = Math.sin(state.clock.elapsedTime * 0.8) * (narrow ? 0.075 : 0.14);
+
     groupRef.current.position.x = THREE.MathUtils.lerp(
       groupRef.current.position.x,
-      baseX + mouseX * (narrow ? 0.12 : 0.24),
+      baseX + mouseX * (narrow ? 0.14 : 0.28) + idleX,
       0.035
     );
 
     groupRef.current.position.y = THREE.MathUtils.lerp(
       groupRef.current.position.y,
-      baseY + mouseY * (narrow ? 0.06 : 0.12),
+      baseY + mouseY * (narrow ? 0.08 : 0.14) + idleY,
       0.035
     );
 
@@ -68,7 +71,7 @@ function Astronaut() {
 
     groupRef.current.rotation.z = THREE.MathUtils.lerp(
       groupRef.current.rotation.z,
-      mouseX * 0.055,
+      mouseX * 0.055 + Math.sin(state.clock.elapsedTime * 0.45) * 0.018,
       0.025
     );
   });
