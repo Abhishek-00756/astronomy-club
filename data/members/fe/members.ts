@@ -34,9 +34,6 @@ export const feMembers: Member[] = [
     name: "Shashank Kumar ",
     bio: "Bad decisions, elite stories, somehow surviving",
     domain: "Reel Making",
-    name: "Mahima Khedar",
-    bio: "",
-    domain: "",
     regNo: "260954",
   },
   {
