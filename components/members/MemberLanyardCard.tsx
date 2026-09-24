@@ -53,15 +53,17 @@ function Rope({
     const endX = startX + Number(x);
     const endY = anchorY + Number(y);
 
-    const distance = Math.sqrt(Number(x) * Number(x) + Number(y) * Number(y));
-    const bend = Math.min(220, 70 + distance * 0.5);
+    const dx = Number(x);
+    const dy = Number(y);
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const direction = Math.sign(dx) || 1;
+    const stretch = Math.min(1, distance / 360);
+    const sag = 92 + Math.min(125, distance * 0.22);
 
-    const direction = Math.sign(Number(x)) || 1;
-    const stretch = Math.min(1, distance / 420);
-    const control1X = startX + Number(x) * (0.12 + stretch * 0.14);
-    const control1Y = Math.max(65, endY * (0.28 + stretch * 0.12));
-    const control2X = endX - direction * bend;
-    const control2Y = endY - Math.min(135, 34 + Math.abs(Number(y)) * 0.24);
+    const control1X = startX + dx * (0.06 + stretch * 0.08);
+    const control1Y = Math.min(135, 72 + sag * 0.18 + Math.max(0, dy) * 0.06);
+    const control2X = endX - direction * (92 + stretch * 135);
+    const control2Y = Math.max(120, endY - sag);
 
     return `M ${startX} 0 C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${endX} ${endY}`;
   });
@@ -74,7 +76,7 @@ function Rope({
     dragY,
     (value) => `${anchorY + value - 3}px`,
   );
-  const clipRotate = useTransform(dragX, [-260, 0, 260], [-12, 0, 12]);
+  const clipRotate = useTransform(dragX, [-280, 0, 280], [-16, 0, 16]);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[110]">
@@ -89,28 +91,29 @@ function Rope({
         <defs>
           <pattern
             id="astronomy-lanyard-pattern"
-            width="46"
-            height="90"
+            width="58"
+            height="88"
             patternUnits="userSpaceOnUse"
           >
-            <g transform="translate(23 45)">
-              <ellipse
-                rx="7"
-                ry="16"
-                fill="none"
-                stroke="rgba(255,255,255,.9)"
-                strokeWidth="1.7"
-                transform="rotate(35)"
+            <g transform="translate(29 42)">
+              <path
+                d="M0-11 L2.8-2.8 L11 0 L2.8 2.8 L0 11 L-2.8 2.8 L-11 0 L-2.8-2.8 Z"
+                fill="rgba(255,255,255,.92)"
               />
-              <ellipse
-                rx="7"
-                ry="16"
+              <circle
+                cx="0"
+                cy="0"
+                r="13"
                 fill="none"
-                stroke="rgba(255,255,255,.9)"
-                strokeWidth="1.7"
-                transform="rotate(-35)"
+                stroke="rgba(255,255,255,.34)"
+                strokeWidth="1.2"
               />
-              <circle r="2.6" fill="rgba(255,255,255,.95)" />
+              <circle
+                cx="9"
+                cy="-5"
+                r="2"
+                fill="rgba(255,255,255,.9)"
+              />
             </g>
           </pattern>
         </defs>
@@ -157,7 +160,7 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
   const dragY = useMotionValue(0);
 
   const cardRotate = useTransform(dragX, [-280, 0, 280], [-10, 0, 10]);
-  const anchorY = 252;
+  const anchorY = 256;
 
   useEffect(() => {
     if (!member) return;
