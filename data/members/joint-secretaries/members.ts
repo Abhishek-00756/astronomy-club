@@ -1,5 +1,3 @@
-"use client";
-
 export type Member = {
   id: string;
   photoId: string;
