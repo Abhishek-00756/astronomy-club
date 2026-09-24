@@ -14,7 +14,7 @@ void main() {
 `;
 
 const FRAGMENT_SHADER = `
-precision highp float;
+precision mediump float;
 
 uniform float uTime;
 uniform vec2 uMouse;
@@ -25,7 +25,7 @@ uniform float uSpeed;
 varying vec2 vUv;
 
 #define PI 3.14159265359
-#define LAYERS 4
+#define LAYERS 3
 
 float hash21(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -174,6 +174,7 @@ void main() {
 
 export default function GalaxyField() {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const mouseTarget = useRef(new THREE.Vector2(0.5, 0.5));
 
   useFrame((state) => {
     if (!materialRef.current) return;
@@ -181,12 +182,14 @@ export default function GalaxyField() {
     materialRef.current.uniforms.uTime.value =
       state.clock.elapsedTime;
 
+    mouseTarget.current.set(
+      state.pointer.x * 0.5 + 0.5,
+      state.pointer.y * 0.5 + 0.5,
+    );
+
     materialRef.current.uniforms.uMouse.value.lerp(
-      new THREE.Vector2(
-        state.pointer.x * 0.5 + 0.5,
-        state.pointer.y * 0.5 + 0.5
-      ),
-      0.035
+      mouseTarget.current,
+      0.035,
     );
   });
 
