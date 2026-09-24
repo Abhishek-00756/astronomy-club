@@ -86,6 +86,10 @@ export default function Home() {
             <p className="mt-8 text-[10px] uppercase tracking-[0.28em] text-white/25">
               Replace this demo copy with the club&apos;s official description.
             </p>
+
+            <p className="mt-4 text-[10px] uppercase tracking-[0.18em] text-white/20">
+              Astronaut model by Aimok via Sketchfab · CC BY
+            </p>
           </article>
         </div>
       </section>
