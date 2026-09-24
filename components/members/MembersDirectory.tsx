@@ -3,66 +3,90 @@
 import { useState } from "react";
 import DitherVeil from "@/components/members/DitherVeil";
 import FlowingCategories from "@/components/members/FlowingCategories";
-import MemberGallery, { type MemberProfile } from "@/components/members/MemberGallery";
+import MemberGallery, {
+  type MemberProfile,
+} from "@/components/members/MemberGallery";
+import { secretaries } from "@/data/members/secretaries/members";
+import { teMembers } from "@/data/members/te/members";
+import { jointSecretaries } from "@/data/members/joint-secretaries/members";
+import { feMembers } from "@/data/members/fe/members";
 
-const membersByCategory: Record<string, MemberProfile[]> = {
-  secretaries: [
-    { id: "s1", name: "Name to be added", role: "Secretary", category: "Secretaries", initials: "S1", note: "Add portrait + short bio" },
-    { id: "s2", name: "Name to be added", role: "Secretary", category: "Secretaries", initials: "S2", note: "Add portrait + short bio" },
-    { id: "s3", name: "Name to be added", role: "Secretary", category: "Secretaries", initials: "S3", note: "Add portrait + short bio" },
-    { id: "s4", name: "Name to be added", role: "Secretary", category: "Secretaries", initials: "S4", note: "Add portrait + short bio" },
-  ],
-  te: [
-    { id: "t1", name: "Name to be added", role: "TE Member", category: "TE Members", initials: "T1", note: "Add portrait + short bio" },
-    { id: "t2", name: "Name to be added", role: "TE Member", category: "TE Members", initials: "T2", note: "Add portrait + short bio" },
-    { id: "t3", name: "Name to be added", role: "TE Member", category: "TE Members", initials: "T3", note: "Add portrait + short bio" },
-    { id: "t4", name: "Name to be added", role: "TE Member", category: "TE Members", initials: "T4", note: "Add portrait + short bio" },
-  ],
-  "joint-secretaries": [
-    { id: "j1", name: "Name to be added", role: "Joint Secretary", category: "Joint Secretaries", initials: "J1", note: "Add portrait + short bio" },
-    { id: "j2", name: "Name to be added", role: "Joint Secretary", category: "Joint Secretaries", initials: "J2", note: "Add portrait + short bio" },
-    { id: "j3", name: "Name to be added", role: "Joint Secretary", category: "Joint Secretaries", initials: "J3", note: "Add portrait + short bio" },
-    { id: "j4", name: "Name to be added", role: "Joint Secretary", category: "Joint Secretaries", initials: "J4", note: "Add portrait + short bio" },
-  ],
-  fe: [
-    { id: "f1", name: "Name to be added", role: "FE Member", category: "FE Members", initials: "F1", note: "Add portrait + short bio" },
-    { id: "f2", name: "Name to be added", role: "FE Member", category: "FE Members", initials: "F2", note: "Add portrait + short bio" },
-    { id: "f3", name: "Name to be added", role: "FE Member", category: "FE Members", initials: "F3", note: "Add portrait + short bio" },
-    { id: "f4", name: "Name to be added", role: "FE Member", category: "FE Members", initials: "F4", note: "Add portrait + short bio" },
-  ],
-};
+type CategoryKey =
+  | "secretaries"
+  | "te"
+  | "joint-secretaries"
+  | "fe";
 
-const categoryMeta = {
+const categorySources: Record<CategoryKey, {
+  title: string;
+  copy: string;
+  role: string;
+  category: MemberProfile["category"];
+  members: typeof secretaries;
+}> = {
   secretaries: {
     title: "Secretaries",
     copy: "The people keeping the club connected, organized and moving.",
+    role: "Secretary",
+    category: "Secretaries",
+    members: secretaries,
   },
   te: {
     title: "TE Members",
     copy: "Senior student members contributing ideas, builds, observations and events.",
+    role: "TE Member",
+    category: "TE Members",
+    members: teMembers,
   },
   "joint-secretaries": {
     title: "Joint Secretaries",
     copy: "A close-working layer supporting coordination across the club.",
+    role: "Joint Secretary",
+    category: "Joint Secretaries",
+    members: jointSecretaries,
   },
   fe: {
     title: "FE Members",
     copy: "New voices bringing fresh curiosity into the astronomy community.",
+    role: "FE Member",
+    category: "FE Members",
+    members: feMembers,
   },
-} as const;
-
-type MembersDirectoryProps = {
-  showIntro?: boolean;
 };
+
+function toProfiles(
+  source: (typeof secretaries),
+  role: string,
+  category: MemberProfile["category"],
+): MemberProfile[] {
+  return source.map((member) => ({
+    id: member.id,
+    name: member.name,
+    role,
+    category,
+    initials: member.id.replace("-", ""),
+    image: member.photo,
+    note: member.bio || (member.domain ? `Domain · ${member.domain}` : ""),
+    bio: member.bio,
+    domain: member.domain,
+    regNo: member.regNo,
+  }));
+}
 
 export default function MembersDirectory({
   showIntro = true,
-}: MembersDirectoryProps) {
+}: {
+  showIntro?: boolean;
+}) {
   const [activeCategory, setActiveCategory] =
-    useState<keyof typeof membersByCategory>("secretaries");
+    useState<CategoryKey>("secretaries");
 
-  const activeMembers = membersByCategory[activeCategory];
-  const meta = categoryMeta[activeCategory];
+  const source = categorySources[activeCategory];
+  const activeMembers = toProfiles(
+    source.members,
+    source.role,
+    source.category,
+  );
 
   return (
     <>
@@ -100,23 +124,21 @@ export default function MembersDirectory({
 
         <FlowingCategories
           active={activeCategory}
-          onChange={(id) =>
-            setActiveCategory(id as keyof typeof membersByCategory)
-          }
+          onChange={(id) => setActiveCategory(id as CategoryKey)}
         />
 
         <div className="mt-16 flex flex-col gap-5 border-b border-white/[0.07] pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-[9px] uppercase tracking-[0.26em] text-cyan-100/42">
-              {meta.title}
+              {source.title}
             </p>
             <h4 className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              Meet the {meta.title.toLowerCase()}.
+              Meet the {source.title.toLowerCase()}.
             </h4>
           </div>
 
           <p className="max-w-lg text-sm leading-6 text-white/38">
-            {meta.copy}
+            {source.copy}
           </p>
         </div>
 
