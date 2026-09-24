@@ -7,7 +7,7 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { MemberProfile } from "./MemberGallery";
 
 type Props = {
@@ -25,44 +25,125 @@ function AtomMark() {
   );
 }
 
-function Lanyard({ dragX, dragY }: { dragX: ReturnType<typeof useMotionValue<number>>; dragY: ReturnType<typeof useMotionValue<number>> }) {
-  const strapAngle = useTransform(() => {
-    const x = dragX.get();
-    const y = dragY.get();
-    return Math.max(-22, Math.min(22, x * 0.045 - y * 0.012));
+function Rope({
+  dragX,
+  dragY,
+  anchorY,
+}: {
+  dragX: ReturnType<typeof useMotionValue<number>>;
+  dragY: ReturnType<typeof useMotionValue<number>>;
+  anchorY: number;
+}) {
+  const [viewportWidth, setViewportWidth] = useState(1280);
+
+  useEffect(() => {
+    const update = () => setViewportWidth(window.innerWidth);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const path = useTransform([dragX, dragY], ([x, y]) => {
+    const startX = viewportWidth / 2;
+    const endX = startX + Number(x);
+    const endY = anchorY + Number(y);
+
+    const distance = Math.abs(endX - startX);
+    const bend = Math.min(180, 55 + distance * 0.42);
+
+    const control1X = startX + Number(x) * 0.18;
+    const control1Y = endY * 0.3;
+    const control2X =
+      endX - Math.sign(Number(x) || 1) * bend;
+    const control2Y =
+      endY - Math.min(105, Math.abs(Number(y)) * 0.2 + 28);
+
+    return `M ${startX} 0 C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${endX} ${endY}`;
   });
 
-  const strapPull = useTransform(() => {
-    const x = dragX.get();
-    const y = dragY.get();
-    return Math.sqrt(x * x + y * y) * 0.16;
-  });
+  const clipX = useTransform(
+    dragX,
+    (value) => `${viewportWidth / 2 + value}px`,
+  );
+  const clipY = useTransform(
+    dragY,
+    (value) => `${anchorY + value - 3}px`,
+  );
+  const clipRotate = useTransform(dragX, [-260, 0, 260], [-12, 0, 12]);
 
   return (
-    <motion.div
-      className="pointer-events-none absolute left-1/2 top-0 z-10 flex w-12 -translate-x-1/2 flex-col items-center"
-      style={{ rotate: strapAngle }}
-    >
-      <div
-        className="h-[7.5rem] w-[1.25rem] bg-[#050608] shadow-[0_0_0_1px_rgba(255,255,255,.03)] sm:h-36"
-        style={{ transform: "translateY(-2px)" }}
+    <div className="pointer-events-none fixed inset-0 z-[110]">
+      <svg
+        width="100%"
+        height="100%"
+        viewBox={`0 0 ${viewportWidth} ${Math.max(window.innerHeight, 900)}`}
+        preserveAspectRatio="none"
+        className="absolute inset-0 overflow-visible"
+        aria-hidden="true"
       >
-        <div className="flex h-full flex-col items-center justify-start gap-7 pt-4">
-          <AtomMark />
-          <AtomMark />
-          <AtomMark />
-        </div>
-      </div>
+        <defs>
+          <pattern
+            id="astronomy-lanyard-pattern"
+            width="46"
+            height="90"
+            patternUnits="userSpaceOnUse"
+          >
+            <g transform="translate(23 45)">
+              <ellipse
+                rx="7"
+                ry="16"
+                fill="none"
+                stroke="rgba(255,255,255,.9)"
+                strokeWidth="1.7"
+                transform="rotate(35)"
+              />
+              <ellipse
+                rx="7"
+                ry="16"
+                fill="none"
+                stroke="rgba(255,255,255,.9)"
+                strokeWidth="1.7"
+                transform="rotate(-35)"
+              />
+              <circle r="2.6" fill="rgba(255,255,255,.95)" />
+            </g>
+          </pattern>
+        </defs>
+
+        <motion.path
+          d={path}
+          fill="none"
+          stroke="#050608"
+          strokeWidth="22"
+          strokeLinecap="round"
+        />
+        <motion.path
+          d={path}
+          fill="none"
+          stroke="url(#astronomy-lanyard-pattern)"
+          strokeWidth="18"
+          strokeLinecap="round"
+        />
+        <motion.path
+          d={path}
+          fill="none"
+          stroke="rgba(255,255,255,.055)"
+          strokeWidth="1"
+        />
+      </svg>
 
       <motion.div
-        className="relative h-7 w-8 rounded-b-[0.65rem] border-2 border-[#08090d] bg-[#101218] shadow-[0_5px_18px_rgba(0,0,0,.45)]"
-        style={{ y: strapPull }}
+        className="absolute h-10 w-11 -translate-x-1/2 -translate-y-1/2 rounded-b-[0.7rem] border-2 border-[#08090d] bg-[#101218] shadow-[0_7px_20px_rgba(0,0,0,.5)]"
+        style={{
+          left: clipX,
+          top: clipY,
+          rotate: clipRotate,
+        }}
       >
-        <div className="absolute left-1/2 top-[-0.5rem] h-4 w-5 -translate-x-1/2 rounded-full border-2 border-[#08090d] bg-[#171921]" />
+        <div className="absolute left-1/2 top-[-0.75rem] h-5 w-7 -translate-x-1/2 rounded-full border-2 border-[#08090d] bg-[#171921]" />
+        <div className="absolute bottom-[-0.6rem] left-1/2 h-3 w-2 -translate-x-1/2 rounded-b-full bg-[#0a0b10]" />
       </motion.div>
-
-      <div className="relative -mt-[0.1rem] h-5 w-2 rounded-b-full bg-[#0a0b10]" />
-    </motion.div>
+    </div>
   );
 }
 
@@ -70,9 +151,8 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
 
-  const cardRotate = useTransform(dragX, [-260, 0, 260], [-9, 0, 9]);
-  const cardLift = useTransform(dragY, [-220, 0, 520], [-10, 0, 8]);
-  const shadowBlur = useTransform(dragY, [-220, 0, 520], [40, 65, 90]);
+  const cardRotate = useTransform(dragX, [-280, 0, 280], [-10, 0, 10]);
+  const anchorY = 285;
 
   useEffect(() => {
     if (!member) return;
@@ -110,35 +190,34 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
             type="button"
             onClick={onClose}
             aria-label="Close member profile"
-            className="fixed right-5 top-5 z-[130] flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/35 text-xl text-white/70 backdrop-blur-md transition hover:border-white/30 hover:bg-white/10 hover:text-white"
+            className="fixed right-5 top-5 z-[140] flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/35 text-xl text-white/70 backdrop-blur-md transition hover:border-white/30 hover:bg-white/10 hover:text-white"
           >
             ×
           </button>
 
-          <div className="relative mt-0 flex min-h-screen w-full max-w-[31rem] justify-center pt-2 sm:pt-5">
-            <Lanyard dragX={dragX} dragY={dragY} />
+          <Rope dragX={dragX} dragY={dragY} anchorY={anchorY} />
 
+          <div className="relative mt-0 flex min-h-screen w-full max-w-[31rem] justify-center pt-2 sm:pt-5">
             <motion.div
               initial={{ y: -230, rotate: -2.8, opacity: 0, scale: 0.94 }}
               animate={{ y: 0, rotate: 0, opacity: 1, scale: 1 }}
-              exit={{ y: -100, rotate: 2, opacity: 0, scale: 0.97 }}
               transition={{
                 type: "spring",
                 stiffness: 105,
                 damping: 16,
                 mass: 1.05,
               }}
-              className="relative mt-[11.3rem] w-[min(88vw,31rem)] origin-top sm:mt-[14.2rem]"
+              className="relative mt-[15.6rem] w-[min(88vw,31rem)] origin-top sm:mt-[15.8rem]"
             >
               <motion.div
                 drag
                 dragConstraints={{
-                  left: -250,
-                  right: 250,
-                  top: -90,
-                  bottom: 500,
+                  left: -280,
+                  right: 280,
+                  top: -120,
+                  bottom: 480,
                 }}
-                dragElastic={0.16}
+                dragElastic={0.12}
                 dragMomentum
                 style={{
                   x: dragX,
@@ -146,24 +225,14 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                   rotate: cardRotate,
                 }}
                 whileDrag={{
-                  scale: 1.025,
+                  scale: 1.02,
                   cursor: "grabbing",
                 }}
-                animate={{
-                  boxShadow: "0 35px 95px rgba(0,0,0,.5)",
-                }}
-                transition={{
-                  boxShadow: {
-                    duration: 0.2,
-                  },
-                }}
-                onDragEnd={() => {
-                  dragX.set(0);
-                  dragY.set(0);
-                }}
-                className="cursor-grab touch-none select-none origin-top"
+                className="origin-top cursor-grab touch-none select-none"
               >
-                <motion.div style={{ y: cardLift }}>
+                <div className="relative">
+                  <div className="absolute left-1/2 top-[-0.85rem] z-20 h-8 w-8 -translate-x-1/2 rounded-full border-[4px] border-[#05070A] bg-[#11151d] shadow-lg" />
+
                   <div className="overflow-hidden rounded-[1.35rem] border border-black/8 bg-[#f0f1f2] text-[#0b0c10] shadow-[0_35px_90px_rgba(0,0,0,.5)] sm:rounded-[1.5rem]">
                     <div className="relative h-72 overflow-hidden bg-[#cfd3d8] sm:h-[19rem]">
                       {member.image ? (
@@ -202,8 +271,6 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                     </div>
 
                     <div className="relative px-6 pb-7 pt-7 sm:px-8 sm:pb-8">
-                      <div className="absolute left-1/2 top-[-1rem] h-8 w-8 -translate-x-1/2 rounded-full border-[4px] border-[#05070A] bg-[#11151d]" />
-
                       <div className="flex items-start justify-between gap-6">
                         <div>
                           <p className="text-[9px] font-semibold uppercase tracking-[0.3em] text-black/38">
@@ -215,7 +282,7 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                           </h2>
                         </div>
 
-                        <div className="mt-1 hidden text-black/20 sm:block">
+                        <div className="mt-1 hidden sm:block">
                           <AtomMark />
                         </div>
                       </div>
@@ -236,11 +303,9 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                         <span className="rounded-full border border-black/10 bg-black/[0.035] px-3 py-2 text-[9px] font-medium uppercase tracking-[0.16em] text-black/50">
                           {member.role}
                         </span>
-
                         <span className="rounded-full border border-black/10 bg-black/[0.035] px-3 py-2 text-[9px] font-medium uppercase tracking-[0.16em] text-black/50">
                           {member.id}
                         </span>
-
                         {member.regNo && (
                           <span className="rounded-full border border-black/10 bg-black/[0.035] px-3 py-2 text-[9px] font-medium uppercase tracking-[0.16em] text-black/50">
                             Reg. {member.regNo}
@@ -249,9 +314,9 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </motion.div>
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       )}
