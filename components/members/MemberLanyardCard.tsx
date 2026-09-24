@@ -317,7 +317,7 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                   </div>
                 </div>
               </motion.div>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       )}
