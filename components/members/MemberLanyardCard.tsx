@@ -4,7 +4,9 @@ import Image from "next/image";
 import {
   AnimatePresence,
   motion,
+  animate,
   useMotionValue,
+  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
@@ -36,6 +38,8 @@ function Rope({
   anchorY: number;
 }) {
   const [viewportSize, setViewportSize] = useState({ width: 1280, height: 900 });
+  const ropeX = useSpring(dragX, { stiffness: 155, damping: 18, mass: 0.7 });
+  const ropeY = useSpring(dragY, { stiffness: 155, damping: 18, mass: 0.7 });
 
   useEffect(() => {
     const update = () => setViewportSize({ width: window.innerWidth, height: window.innerHeight });
@@ -44,20 +48,20 @@ function Rope({
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const path = useTransform([dragX, dragY], ([x, y]) => {
+  const path = useTransform([ropeX, ropeY], ([x, y]) => {
     const startX = viewportSize.width / 2;
     const endX = startX + Number(x);
     const endY = anchorY + Number(y);
 
-    const distance = Math.abs(endX - startX);
-    const bend = Math.min(180, 55 + distance * 0.42);
+    const distance = Math.sqrt(Number(x) * Number(x) + Number(y) * Number(y));
+    const bend = Math.min(220, 70 + distance * 0.5);
 
-    const control1X = startX + Number(x) * 0.18;
-    const control1Y = endY * 0.3;
-    const control2X =
-      endX - Math.sign(Number(x) || 1) * bend;
-    const control2Y =
-      endY - Math.min(105, Math.abs(Number(y)) * 0.2 + 28);
+    const direction = Math.sign(Number(x)) || 1;
+    const stretch = Math.min(1, distance / 420);
+    const control1X = startX + Number(x) * (0.12 + stretch * 0.14);
+    const control1Y = Math.max(65, endY * (0.28 + stretch * 0.12));
+    const control2X = endX - direction * bend;
+    const control2Y = endY - Math.min(135, 34 + Math.abs(Number(y)) * 0.24);
 
     return `M ${startX} 0 C ${control1X} ${control1Y}, ${control2X} ${control2Y}, ${endX} ${endY}`;
   });
@@ -219,15 +223,33 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                   bottom: 480,
                 }}
                 dragElastic={0.12}
-                dragMomentum
+                dragMomentum={false}
                 style={{
                   x: dragX,
                   y: dragY,
                   rotate: cardRotate,
                 }}
                 whileDrag={{
-                  scale: 1.02,
+                  scale: 1.025,
                   cursor: "grabbing",
+                }}
+                onDragStart={() => {
+                  animate(dragX, dragX.get(), { duration: 0 });
+                  animate(dragY, dragY.get(), { duration: 0 });
+                }}
+                onDragEnd={() => {
+                  animate(dragX, 0, {
+                    type: "spring",
+                    stiffness: 85,
+                    damping: 12,
+                    mass: 0.9,
+                  });
+                  animate(dragY, 0, {
+                    type: "spring",
+                    stiffness: 85,
+                    damping: 12,
+                    mass: 0.9,
+                  });
                 }}
                 className="origin-top cursor-grab touch-none select-none"
               >
