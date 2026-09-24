@@ -2,18 +2,16 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import CelestialSystem, {
-  type SpaceInteraction,
-} from "./CelestialSystem";
+import CelestialSystem, { type SpaceInteraction } from "./CelestialSystem";
 import GalaxyField from "./GalaxyField";
 
 function MovingStars() {
   const pointsRef = useRef<THREE.Points>(null);
 
   const { positions, baseZ, speeds } = useMemo(() => {
-    const count = 2600;
+    const count = 1600;
     const positions = new Float32Array(count * 3);
     const baseZ = new Float32Array(count);
     const speeds = new Float32Array(count);
@@ -21,11 +19,9 @@ function MovingStars() {
     for (let i = 0; i < count; i += 1) {
       const i3 = i * 3;
       const z = -90 + Math.random() * 97;
-
       positions[i3] = (Math.random() - 0.5) * 42;
       positions[i3 + 1] = (Math.random() - 0.5) * 25;
       positions[i3 + 2] = z;
-
       baseZ[i] = z;
       speeds[i] = 4.8 + Math.random() * 2.6;
     }
@@ -34,53 +30,37 @@ function MovingStars() {
   }, []);
 
   useFrame((state) => {
-    if (!pointsRef.current) return;
+    const points = pointsRef.current;
+    if (!points) return;
 
-    const positionAttribute =
-      pointsRef.current.geometry.attributes.position;
-
+    const attribute = points.geometry.attributes.position;
     const elapsed = state.clock.elapsedTime;
 
-    for (let i = 0; i < positionAttribute.count; i += 1) {
+    for (let i = 0; i < attribute.count; i += 1) {
       const zIndex = i * 3 + 2;
-
-      // Compute position from the original depth + elapsed time.
-      // This prevents the star field from accumulating numerical drift
-      // and keeps the forward-flight loop continuous indefinitely.
       let z = -90 + ((baseZ[i] + 90 + elapsed * speeds[i]) % 97);
-
       if (z > 7) z -= 97;
-
-      positionAttribute.array[zIndex] = z;
+      attribute.array[zIndex] = z;
     }
 
-    positionAttribute.needsUpdate = true;
+    attribute.needsUpdate = true;
 
-    const targetX = state.pointer.x * 0.32;
-    const targetY = state.pointer.y * 0.18;
-
-    pointsRef.current.position.x = THREE.MathUtils.lerp(
-      pointsRef.current.position.x,
-      targetX,
-      0.035
+    points.position.x = THREE.MathUtils.lerp(
+      points.position.x,
+      state.pointer.x * 0.32,
+      0.035,
     );
 
-    pointsRef.current.position.y = THREE.MathUtils.lerp(
-      pointsRef.current.position.y,
-      targetY,
-      0.035
+    points.position.y = THREE.MathUtils.lerp(
+      points.position.y,
+      state.pointer.y * 0.18,
+      0.035,
     );
 
-    pointsRef.current.rotation.z = THREE.MathUtils.lerp(
-      pointsRef.current.rotation.z,
+    points.rotation.z = THREE.MathUtils.lerp(
+      points.rotation.z,
       state.pointer.x * 0.018,
-      0.03
-    );
-
-    pointsRef.current.rotation.x = THREE.MathUtils.lerp(
-      pointsRef.current.rotation.x,
-      -state.pointer.y * 0.012,
-      0.03
+      0.03,
     );
   });
 
@@ -112,19 +92,19 @@ function CameraRig() {
     state.camera.position.x = THREE.MathUtils.lerp(
       state.camera.position.x,
       state.pointer.x * 0.28,
-      0.025
+      0.025,
     );
 
     state.camera.position.y = THREE.MathUtils.lerp(
       state.camera.position.y,
       state.pointer.y * 0.14,
-      0.025
+      0.025,
     );
 
     state.camera.position.z = THREE.MathUtils.lerp(
       state.camera.position.z,
       7.8,
-      0.025
+      0.025,
     );
 
     state.camera.lookAt(0, -0.95, -3);
@@ -146,11 +126,11 @@ function SpaceObjects({
       <Stars
         radius={110}
         depth={70}
-        count={6000}
-        factor={2.1}
+        count={2200}
+        factor={1.8}
         saturation={0}
         fade
-        speed={0.09}
+        speed={0.07}
       />
 
       <CelestialSystem interaction={interaction} />
@@ -179,57 +159,64 @@ function SpaceObjects({
 }
 
 export default function SpaceScene() {
-  const interaction = useRef<SpaceInteraction>({
-    scrollImpulse: 0,
-  });
+  const [visible, setVisible] = useState(true);
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  const interaction = useRef<SpaceInteraction>({ scrollImpulse: 0 });
 
   useEffect(() => {
-    const handleWheel = (event: WheelEvent) => {
-      const impulse = THREE.MathUtils.clamp(
-        event.deltaY * 0.0018,
-        -1,
-        1
-      );
+    const host = hostRef.current;
+    if (!host) return;
 
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(Boolean(entry?.isIntersecting)),
+      { rootMargin: "160px" },
+    );
+
+    observer.observe(host);
+
+    const handleWheel = (event: WheelEvent) => {
       interaction.current.scrollImpulse = THREE.MathUtils.clamp(
-        interaction.current.scrollImpulse + impulse,
+        interaction.current.scrollImpulse + THREE.MathUtils.clamp(
+          event.deltaY * 0.0018,
+          -1,
+          1,
+        ),
         -1.5,
-        1.5
+        1.5,
       );
     };
 
-    window.addEventListener("wheel", handleWheel, {
-      passive: true,
-    });
+    window.addEventListener("wheel", handleWheel, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("wheel", handleWheel);
     };
   }, []);
 
   return (
-    <div className="absolute inset-0">
-      <Canvas
-        camera={{
-          position: [0, 0, 8],
-          fov: 48,
-          near: 0.1,
-          far: 200,
-        }}
-        dpr={[1, 1.75]}
-        gl={{
-          antialias: true,
-          powerPreference: "high-performance",
-        }}
-      >
-        <color attach="background" args={["#05070A"]} />
-        <fog attach="fog" args={["#05070A", 38, 120]} />
-
-        <ambientLight intensity={0.24} />
-
-        <SpaceObjects interaction={interaction.current} />
-        <CameraRig />
-      </Canvas>
+    <div ref={hostRef} className="absolute inset-0">
+      {visible && (
+        <Canvas
+          camera={{
+            position: [0, 0, 8],
+            fov: 48,
+            near: 0.1,
+            far: 200,
+          }}
+          dpr={[1, 1.35]}
+          gl={{
+            antialias: true,
+            powerPreference: "high-performance",
+          }}
+        >
+          <color attach="background" args={["#05070A"]} />
+          <fog attach="fog" args={["#05070A", 38, 120]} />
+          <ambientLight intensity={0.24} />
+          <SpaceObjects interaction={interaction.current} />
+          <CameraRig />
+        </Canvas>
+      )}
     </div>
   );
 }
