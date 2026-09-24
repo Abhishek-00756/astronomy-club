@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { MemberProfile } from "./MemberGallery";
 import MemberLanyardCard from "./MemberLanyardCard";
@@ -9,36 +10,52 @@ export default function MemberGalleryInteractive({
 }: {
   members: MemberProfile[];
 }) {
-  const rows: MemberProfile[][] = [];
+  const [selected, setSelected] = useState<MemberProfile | null>(null);
 
+  const rows: MemberProfile[][] = [];
   for (let i = 0; i < members.length; i += 4) {
     rows.push(members.slice(i, i + 4));
   }
 
   return (
-    <div className="mt-10 space-y-5">
-      {rows.map((row, rowIndex) => (
-        <GalleryRow
-          key={row[0]?.id ?? rowIndex}
-          members={row}
-        />
-      ))}
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:hidden">
-        {members.map((member, index) => (
-          <MemberCard
-            key={member.id}
-            member={member}
-            index={index}
-            mobile
+    <>
+      <div className="mt-10 space-y-5">
+        {rows.map((row, rowIndex) => (
+          <GalleryRow
+            key={row[0]?.id ?? rowIndex}
+            members={row}
+            onSelect={setSelected}
           />
         ))}
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:hidden">
+          {members.map((member, index) => (
+            <MemberCard
+              key={member.id}
+              member={member}
+              index={index}
+              mobile
+              onSelect={() => setSelected(member)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
+      <MemberLanyardCard
+        member={selected}
+        onClose={() => setSelected(null)}
+      />
+    </>
   );
 }
 
-function GalleryRow({ members }: { members: MemberProfile[] }) {
+function GalleryRow({
+  members,
+  onSelect,
+}: {
+  members: MemberProfile[];
+  onSelect: (member: MemberProfile) => void;
+}) {
   const [activeId, setActiveId] = useState(members[0]?.id ?? "");
 
   return (
@@ -50,6 +67,7 @@ function GalleryRow({ members }: { members: MemberProfile[] }) {
           index={index}
           active={activeId === member.id}
           onActivate={() => setActiveId(member.id)}
+          onSelect={() => onSelect(member)}
         />
       ))}
     </div>
@@ -62,12 +80,14 @@ function MemberCard({
   active = true,
   mobile = false,
   onActivate,
+  onSelect,
 }: {
   member: MemberProfile;
   index: number;
   active?: boolean;
   mobile?: boolean;
   onActivate?: () => void;
+  onSelect: () => void;
 }) {
   const handleMove = (event: ReactPointerEvent<HTMLElement>) => {
     const card = event.currentTarget;
@@ -75,8 +95,8 @@ function MemberCard({
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
 
-    card.style.setProperty("--rx", `${(0.5 - y) * 6}deg`);
-    card.style.setProperty("--ry", `${(x - 0.5) * 8}deg`);
+    card.style.setProperty("--rx", `${(0.5 - y) * 5}deg`);
+    card.style.setProperty("--ry", `${(x - 0.5) * 7}deg`);
     card.style.setProperty("--mx", `${x * 100}%`);
     card.style.setProperty("--my", `${y * 100}%`);
   };
@@ -94,20 +114,17 @@ function MemberCard({
       onMouseEnter={onActivate}
       onPointerMove={handleMove}
       onPointerLeave={reset}
-      onClick={(event) => {
-        onActivate?.();
-        event.currentTarget.focus();
-      }}
+      onClick={onSelect}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          event.currentTarget.focus();
+          onSelect();
         }
       }}
       role="button"
       tabIndex={0}
-      aria-label={`${member.name}, ${member.role}`}
-      className={`group relative min-w-0 cursor-pointer outline-none  focus-visible:ring-2 focus-visible:ring-cyan-100/35 ${mobile ? "min-h-[28rem]" : ""}`}
+      aria-label={`${member.name}, ${member.role}. Open profile`}
+      className={`group relative min-w-0 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-cyan-100/35 ${mobile ? "min-h-[28rem]" : ""}`}
       style={{
         flex: mobile ? "1 1 0%" : active ? "2.3 1 0%" : "0.9 1 0%",
         transition: mobile
@@ -115,13 +132,17 @@ function MemberCard({
           : "flex 700ms cubic-bezier(.22,1,.36,1)",
       }}
     >
-      <div className="relative h-full min-h-[28rem] overflow-hidden [perspective:1200px] rounded-[1.7rem] border border-white/[0.09] bg-[#0a0d13] shadow-[0_25px_70px_rgba(0,0,0,.28)] transition duration-700 [transform:rotateX(var(--rx))_rotateY(var(--ry))] [transform-style:preserve-3d] group-focus:border-cyan-100/30 group-hover:-translate-y-1 group-hover:border-cyan-100/22">
+      <div className="relative h-full min-h-[28rem] overflow-hidden rounded-[1.7rem] border border-white/[0.09] bg-[#0a0d13] shadow-[0_25px_70px_rgba(0,0,0,.28)] transition-[transform,border-color,box-shadow] duration-700 [transform:rotateX(var(--rx))_rotateY(var(--ry))] [transform-style:preserve-3d] group-hover:-translate-y-1 group-hover:border-cyan-100/22">
         <div className="absolute inset-0 overflow-hidden">
           {member.image ? (
-            <img
+            <Image
               src={member.image}
               alt={member.name}
-              className="h-full w-full object-cover transition duration-1000 group-hover:scale-[1.04]"
+              fill
+              sizes="(max-width: 1023px) 50vw, 28vw"
+              quality={72}
+              loading="lazy"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
             />
           ) : (
             <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_50%_25%,rgba(128,199,255,.24),transparent_28%),linear-gradient(145deg,#121b2b,#070a0f_70%)]">
@@ -135,13 +156,13 @@ function MemberCard({
             className="pointer-events-none absolute inset-[-30%]"
             style={{
               background:
-                "radial-gradient(circle at var(--mx) var(--my), rgba(231,249,255,.21), transparent 17%)",
+                "radial-gradient(circle at var(--mx) var(--my), rgba(231,249,255,.18), transparent 17%)",
               mixBlendMode: "screen",
-              opacity: active ? 1 : 0.45,
+              opacity: active ? 1 : 0.4,
             }}
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#030509] via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#030509] via-transparent to-transparent" />
         </div>
 
         <div className="absolute inset-x-5 top-5 z-10 flex justify-between text-[8px] uppercase tracking-[0.25em] text-white/34">
@@ -153,23 +174,30 @@ function MemberCard({
           <p className="text-[9px] uppercase tracking-[0.24em] text-cyan-100/48">
             {member.role}
           </p>
+
           <h3 className="mt-2 max-w-[18rem] text-2xl font-semibold leading-[1.02] tracking-[-0.045em] text-white sm:text-3xl">
             {member.name}
           </h3>
+
           {member.domain && (
             <p className="mt-3 text-[9px] uppercase tracking-[0.16em] text-cyan-100/48">
               {member.domain}
             </p>
           )}
+
           {member.bio && (
             <p className="mt-2 max-w-[19rem] text-xs leading-5 text-white/54">
               {member.bio}
             </p>
           )}
+
+          {member.regNo && (
+            <p className="mt-2 text-[9px] uppercase tracking-[0.16em] text-white/24">
+              Reg. No. {member.regNo}
+            </p>
+          )}
         </div>
       </div>
-
-      <MemberLanyardCard member={member} />
     </article>
   );
 }
