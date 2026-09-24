@@ -7,7 +7,7 @@ export type MemberCategory =
 export type MemberProfile = {
   id: string;
   photoId: string;
-  photo: string;
+  photo?: string;
   name: string;
   bio: string;
   domain?: string;
