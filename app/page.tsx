@@ -1,45 +1,6 @@
 import SpaceScene from "@/components/three/SpaceScene";
 import AstronautScene from "@/components/three/AstronautScene";
 
-const members = [
-  {
-    name: "Member One",
-    role: "President",
-    description: "Leads the club and shapes its astronomy initiatives.",
-    initials: "MO",
-  },
-  {
-    name: "Member Two",
-    role: "Vice President",
-    description: "Coordinates projects, sessions and student activities.",
-    initials: "MT",
-  },
-  {
-    name: "Member Three",
-    role: "Secretary",
-    description: "Keeps the club organized, connected and moving.",
-    initials: "MT",
-  },
-  {
-    name: "Member Four",
-    role: "Technical Lead",
-    description: "Builds the digital and technical side of club projects.",
-    initials: "MF",
-  },
-  {
-    name: "Member Five",
-    role: "Event Coordinator",
-    description: "Turns observation nights and events into experiences.",
-    initials: "MF",
-  },
-  {
-    name: "Member Six",
-    role: "Astrophotography",
-    description: "Captures and documents the sky through the club.",
-    initials: "MS",
-  },
-];
-
 export default function Home() {
   return (
     <main className="bg-[#05070A] text-white">
@@ -138,56 +99,57 @@ export default function Home() {
         className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A] px-6 py-28 sm:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="max-w-2xl">
-            <p className="text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
-              02 / The People
-            </p>
+          <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
+                02 / The People
+              </p>
 
-            <h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-6xl md:text-7xl">
-              Meet the
-              <span className="block text-white/45">people behind the club.</span>
-            </h2>
+              <h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-6xl md:text-7xl">
+                Meet the
+                <span className="block text-white/45">people behind the club.</span>
+              </h2>
+            </div>
 
-            <p className="mt-6 text-sm leading-7 text-white/45 sm:text-base">
-              Demo member data — replace these cards with the current
-              committee and member portraits, roles and short bios.
-            </p>
+            <div className="lg:justify-self-end lg:text-right">
+              <p className="max-w-md text-sm leading-7 text-white/45 sm:text-base">
+                A dedicated member page is ready for the current committee,
+                TE members, Joint Secretaries and FE members — with animated
+                portraits and flowing category navigation.
+              </p>
+
+              <a
+                href="/members"
+                className="mt-7 inline-flex items-center gap-3 rounded-full border border-cyan-100/20 bg-cyan-100/[0.045] px-6 py-3 text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-50 transition duration-300 hover:border-cyan-100/40 hover:bg-cyan-100/[0.085]"
+              >
+                Open member directory
+                <span aria-hidden="true" className="text-sm">↗</span>
+              </a>
+            </div>
           </div>
 
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {members.map((member, index) => (
-              <article
-                key={member.name}
-                className="group rounded-[1.5rem] border border-white/[0.08] bg-white/[0.025] p-5 backdrop-blur-sm transition duration-500 hover:-translate-y-1 hover:border-cyan-200/20 hover:bg-white/[0.04]"
+          <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["01", "Secretaries"],
+              ["02", "TE Members"],
+              ["03", "Joint Secretaries"],
+              ["04", "FE Members"],
+            ].map(([number, label]) => (
+              <a
+                key={label}
+                href="/members"
+                className="group rounded-[1.5rem] border border-white/[0.07] bg-white/[0.018] p-6 transition duration-500 hover:-translate-y-1 hover:border-cyan-100/18 hover:bg-white/[0.035]"
               >
-                <div className="flex items-start justify-between gap-5">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full border border-cyan-200/15 bg-cyan-200/[0.06] text-sm font-semibold tracking-[0.14em] text-cyan-100/75">
-                    {member.initials}
-                  </div>
-
-                  <span className="text-[9px] uppercase tracking-[0.25em] text-white/20">
-                    0{index + 1}
-                  </span>
-                </div>
-
-                <p className="mt-7 text-[9px] font-medium uppercase tracking-[0.28em] text-cyan-200/45">
-                  {member.role}
-                </p>
-
-                <h3 className="mt-2 text-2xl font-semibold tracking-[-0.035em]">
-                  {member.name}
-                </h3>
-
-                <p className="mt-3 text-sm leading-6 text-white/40">
-                  {member.description}
-                </p>
-
-                <div className="mt-7 h-px w-full bg-white/[0.07]" />
-
-                <p className="mt-4 text-[9px] uppercase tracking-[0.22em] text-white/20">
-                  Photo coming soon
-                </p>
-              </article>
+                <span className="text-[9px] uppercase tracking-[0.25em] text-white/20">
+                  {number}
+                </span>
+                <span className="mt-8 block text-xl font-medium tracking-[-0.03em] text-white/72 transition group-hover:text-white">
+                  {label}
+                </span>
+                <span className="mt-12 block text-[9px] uppercase tracking-[0.22em] text-cyan-100/35">
+                  Explore members ↗
+                </span>
+              </a>
             ))}
           </div>
         </div>
