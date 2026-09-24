@@ -6,6 +6,7 @@ import {
   motion,
   useMotionValue,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { useEffect, useState } from "react";
 import type { MemberProfile } from "./MemberGallery";
@@ -30,21 +31,21 @@ function Rope({
   dragY,
   anchorY,
 }: {
-  dragX: ReturnType<typeof useMotionValue<number>>;
-  dragY: ReturnType<typeof useMotionValue<number>>;
+  dragX: MotionValue<number>;
+  dragY: MotionValue<number>;
   anchorY: number;
 }) {
-  const [viewportWidth, setViewportWidth] = useState(1280);
+  const [viewportSize, setViewportSize] = useState({ width: 1280, height: 900 });
 
   useEffect(() => {
-    const update = () => setViewportWidth(window.innerWidth);
+    const update = () => setViewportSize({ width: window.innerWidth, height: window.innerHeight });
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
   const path = useTransform([dragX, dragY], ([x, y]) => {
-    const startX = viewportWidth / 2;
+    const startX = viewportSize.width / 2;
     const endX = startX + Number(x);
     const endY = anchorY + Number(y);
 
@@ -63,7 +64,7 @@ function Rope({
 
   const clipX = useTransform(
     dragX,
-    (value) => `${viewportWidth / 2 + value}px`,
+    (value) => `${viewportSize.width / 2 + value}px`,
   );
   const clipY = useTransform(
     dragY,
@@ -76,7 +77,7 @@ function Rope({
       <svg
         width="100%"
         height="100%"
-        viewBox={`0 0 ${viewportWidth} ${Math.max(window.innerHeight, 900)}`}
+        viewBox={`0 0 ${viewportSize.width} ${viewportSize.height}`}
         preserveAspectRatio="none"
         className="absolute inset-0 overflow-visible"
         aria-hidden="true"
@@ -152,7 +153,7 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
   const dragY = useMotionValue(0);
 
   const cardRotate = useTransform(dragX, [-280, 0, 280], [-10, 0, 10]);
-  const anchorY = 285;
+  const anchorY = 252;
 
   useEffect(() => {
     if (!member) return;
