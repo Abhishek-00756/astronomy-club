@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type PointerEvent as ReactPointerEvent } from "react";
 
 export type MemberProfile = {
   id: string;
@@ -35,7 +35,7 @@ function MemberPhoto({
 }) {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     const card = cardRef.current;
     if (!card) return;
 
