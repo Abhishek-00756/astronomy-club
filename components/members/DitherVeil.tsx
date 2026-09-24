@@ -7,20 +7,26 @@ export default function DitherVeil() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const context = canvas.getContext("2d");
-    if (!context) return;
+    const context = canvas?.getContext("2d", { alpha: true });
+    if (!canvas || !context) return;
 
     let frame = 0;
     let width = 0;
     let height = 0;
-    let points: Array<{ x: number; y: number; phase: number; size: number }> = [];
+    let lastFrame = 0;
+    let visible = false;
+    let points: Array<{
+      x: number;
+      y: number;
+      phase: number;
+      size: number;
+    }> = [];
+
     let pointer = { x: 0.5, y: 0.5, active: false };
 
     const rebuild = () => {
       const rect = canvas.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
       width = Math.max(1, Math.floor(rect.width));
       height = Math.max(1, Math.floor(rect.height));
 
@@ -28,17 +34,18 @@ export default function DitherVeil() {
       canvas.height = Math.floor(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-      const density = Math.min(5200, Math.max(1800, Math.floor((width * height) / 115)));
+      const density = Math.min(
+        1500,
+        Math.max(700, Math.floor((width * height) / 420)),
+      );
+
       points = Array.from({ length: density }, (_, index) => ({
         x: Math.random(),
         y: Math.random(),
         phase: (index * 0.61803398875) % (Math.PI * 2),
-        size: Math.random() > 0.82 ? 1.45 : 0.8,
+        size: Math.random() > 0.84 ? 1.35 : 0.75,
       }));
     };
-
-    const resizeObserver = new ResizeObserver(rebuild);
-    resizeObserver.observe(canvas);
 
     const onPointerMove = (event: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -53,10 +60,18 @@ export default function DitherVeil() {
       pointer.active = false;
     };
 
-    canvas.addEventListener("pointermove", onPointerMove);
-    canvas.addEventListener("pointerleave", onPointerLeave);
-
     const draw = (time: number) => {
+      if (!visible || document.hidden) {
+        frame = requestAnimationFrame(draw);
+        return;
+      }
+
+      if (time - lastFrame < 32) {
+        frame = requestAnimationFrame(draw);
+        return;
+      }
+
+      lastFrame = time;
       const t = time * 0.00035;
 
       context.clearRect(0, 0, width, height);
@@ -69,19 +84,22 @@ export default function DitherVeil() {
         height * 0.5,
         width * 0.72,
       );
-      veil.addColorStop(0, "rgba(155, 215, 255, 0.09)");
-      veil.addColorStop(0.45, "rgba(110, 150, 255, 0.045)");
+
+      veil.addColorStop(0, "rgba(155, 215, 255, 0.08)");
+      veil.addColorStop(0.45, "rgba(110, 150, 255, 0.035)");
       veil.addColorStop(1, "rgba(0, 0, 0, 0)");
+
       context.fillStyle = veil;
       context.fillRect(0, 0, width, height);
 
       for (const point of points) {
         const wave =
-          Math.sin(point.x * 18 + t * 8 + point.phase) * 0.08 +
-          Math.sin(point.y * 30 - t * 6) * 0.06;
+          Math.sin(point.x * 18 + t * 8 + point.phase) * 0.055 +
+          Math.sin(point.y * 30 - t * 6) * 0.045;
 
         const px = point.x + wave;
-        const py = point.y + Math.sin(point.x * 9 + t * 5) * 0.022;
+        const py =
+          point.y + Math.sin(point.x * 9 + t * 5) * 0.018;
 
         const dx = px - pointer.x;
         const dy = py - pointer.y;
@@ -90,42 +108,56 @@ export default function DitherVeil() {
           ? Math.max(0, 1 - distance / 0.28)
           : 0;
 
-        const driftX = influence * dx * -0.06;
-        const driftY = influence * dy * -0.06;
+        const driftX = influence * dx * -0.05;
+        const driftY = influence * dy * -0.05;
 
         const star =
-          0.11 +
-          Math.max(0, 0.5 - Math.abs(px - 0.5)) * 0.3 +
-          Math.sin(point.phase + t * 4) * 0.08;
+          0.12 +
+          Math.max(0, 0.5 - Math.abs(px - 0.5)) * 0.28 +
+          Math.sin(point.phase + t * 4) * 0.07;
 
         if (star < 0.14) continue;
 
-        context.fillStyle =
-          influence > 0.12
-            ? "rgba(215, 242, 255, 0.74)"
-            : `rgba(214, 230, 255, ${Math.max(0.16, star)})`;
+        context.globalAlpha =
+          influence > 0.12 ? 0.7 : Math.max(0.15, star);
 
-        const radius = point.size + influence * 1.15;
+        context.fillStyle = "#d6e6ff";
+
         context.beginPath();
         context.arc(
           (px + driftX) * width,
           (py + driftY) * height,
-          radius,
+          point.size + influence * 0.9,
           0,
           Math.PI * 2,
         );
         context.fill();
       }
 
+      context.globalAlpha = 1;
       frame = requestAnimationFrame(draw);
     };
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = Boolean(entry?.isIntersecting);
+      },
+      { rootMargin: "120px" },
+    );
+
+    observer.observe(canvas);
     rebuild();
+
+    window.addEventListener("resize", rebuild);
+    canvas.addEventListener("pointermove", onPointerMove);
+    canvas.addEventListener("pointerleave", onPointerLeave);
+
     frame = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(frame);
-      resizeObserver.disconnect();
+      observer.disconnect();
+      window.removeEventListener("resize", rebuild);
       canvas.removeEventListener("pointermove", onPointerMove);
       canvas.removeEventListener("pointerleave", onPointerLeave);
     };
@@ -139,7 +171,7 @@ export default function DitherVeil() {
         className="absolute inset-0 h-full w-full"
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgba(86,191,255,0.08),transparent_44%),linear-gradient(180deg,rgba(5,7,10,0.86),transparent_28%,transparent_72%,rgba(5,7,10,0.92))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgba(86,191,255,0.07),transparent_44%),linear-gradient(180deg,rgba(5,7,10,0.86),transparent_28%,transparent_72%,rgba(5,7,10,0.92))]" />
 
       <div className="relative z-10 mx-auto flex h-full max-w-7xl items-end px-6 pb-10 sm:px-10 lg:px-16">
         <div>
