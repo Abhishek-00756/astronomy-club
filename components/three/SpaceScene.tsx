@@ -140,7 +140,8 @@ function SpaceObjects({
 }) {
   return (
     <>
-      <GalaxyField />\n      <MovingStars />
+      <GalaxyField />
+      <MovingStars />
 
       <Stars
         radius={110}
