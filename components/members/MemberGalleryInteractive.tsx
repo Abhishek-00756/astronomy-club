@@ -107,7 +107,7 @@ function MemberCard({
       role="button"
       tabIndex={0}
       aria-label={`${member.name}, ${member.role}`}
-      className={`group relative min-w-0 cursor-pointer outline-none [perspective:1200px] focus-visible:ring-2 focus-visible:ring-cyan-100/35 ${mobile ? "min-h-[28rem]" : ""}`}
+      className={`group relative min-w-0 cursor-pointer outline-none  focus-visible:ring-2 focus-visible:ring-cyan-100/35 ${mobile ? "min-h-[28rem]" : ""}`}
       style={{
         flex: mobile ? "1 1 0%" : active ? "2.3 1 0%" : "0.9 1 0%",
         transition: mobile
@@ -115,7 +115,7 @@ function MemberCard({
           : "flex 700ms cubic-bezier(.22,1,.36,1)",
       }}
     >
-      <div className="relative h-full min-h-[28rem] overflow-hidden rounded-[1.7rem] border border-white/[0.09] bg-[#0a0d13] shadow-[0_25px_70px_rgba(0,0,0,.28)] transition duration-700 [transform:rotateX(var(--rx))_rotateY(var(--ry))] [transform-style:preserve-3d] group-focus:border-cyan-100/30 group-hover:-translate-y-1 group-hover:border-cyan-100/22">
+      <div className="relative h-full min-h-[28rem] overflow-hidden [perspective:1200px] rounded-[1.7rem] border border-white/[0.09] bg-[#0a0d13] shadow-[0_25px_70px_rgba(0,0,0,.28)] transition duration-700 [transform:rotateX(var(--rx))_rotateY(var(--ry))] [transform-style:preserve-3d] group-focus:border-cyan-100/30 group-hover:-translate-y-1 group-hover:border-cyan-100/22">
         <div className="absolute inset-0 overflow-hidden">
           {member.image ? (
             <img
