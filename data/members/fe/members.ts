@@ -1,7 +1,7 @@
 export type Member = {
   id: string;
   photoId: string;
-  photo: string;
+  photo?: string;
   name: string;
   bio: string;
   domain?: string;
@@ -30,7 +30,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-03",
     photoId: "FE-03",
-    photo: "/members/fe/FE-03.jpg",
     name: "Mahima Khedar",
     bio: "",
     domain: "",
@@ -48,7 +47,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-05",
     photoId: "FE-05",
-    photo: "/members/fe/FE-05.jpg",
     name: "Kaushal Kumar",
     bio: "",
     domain: "",
@@ -57,7 +55,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-06",
     photoId: "FE-06",
-    photo: "/members/fe/FE-06.jpg",
     name: "Krishna Singh",
     bio: "",
     domain: "",
@@ -66,7 +63,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-07",
     photoId: "FE-07",
-    photo: "/members/fe/FE-07.jpg",
     name: "Sneha singh",
     bio: "",
     domain: "",
@@ -75,7 +71,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-08",
     photoId: "FE-08",
-    photo: "/members/fe/FE-08.jpg",
     name: "Nivedya.R",
     bio: "",
     domain: "",
@@ -84,7 +79,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-09",
     photoId: "FE-09",
-    photo: "/members/fe/FE-09.jpg",
     name: "Alina Kazmi",
     bio: "",
     domain: "",
@@ -93,7 +87,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-10",
     photoId: "FE-10",
-    photo: "/members/fe/FE-10.jpg",
     name: "Ankita",
     bio: "",
     domain: "",
@@ -102,7 +95,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-11",
     photoId: "FE-11",
-    photo: "/members/fe/FE-11.jpg",
     name: "Mohit Choudhary",
     bio: "",
     domain: "",
@@ -111,7 +103,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-12",
     photoId: "FE-12",
-    photo: "/members/fe/FE-12.jpg",
     name: "Sanjali Kumari",
     bio: "",
     domain: "",
@@ -120,7 +111,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-13",
     photoId: "FE-13",
-    photo: "/members/fe/FE-13.jpg",
     name: "Rubal Choudhary",
     bio: "",
     domain: "",
@@ -129,7 +119,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-14",
     photoId: "FE-14",
-    photo: "/members/fe/FE-14.jpg",
     name: "Ayush Singh Kushwah",
     bio: "",
     domain: "",
@@ -138,7 +127,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-15",
     photoId: "FE-15",
-    photo: "/members/fe/FE-15.jpg",
     name: "Nikhil Bharadwaj",
     bio: "",
     domain: "",
@@ -147,7 +135,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-16",
     photoId: "FE-16",
-    photo: "/members/fe/FE-16.jpg",
     name: "Parul",
     bio: "",
     domain: "",
@@ -156,7 +143,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-17",
     photoId: "FE-17",
-    photo: "/members/fe/FE-17.jpg",
     name: "Debasmita",
     bio: "",
     domain: "",
@@ -165,7 +151,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-18",
     photoId: "FE-18",
-    photo: "/members/fe/FE-18.jpg",
     name: "Devbrat Singh Tomar",
     bio: "",
     domain: "",
@@ -174,7 +159,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-19",
     photoId: "FE-19",
-    photo: "/members/fe/FE-19.jpg",
     name: "Kapil Choudhary",
     bio: "",
     domain: "",
@@ -183,7 +167,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-20",
     photoId: "FE-20",
-    photo: "/members/fe/FE-20.jpg",
     name: "Panke sarthak devidas",
     bio: "",
     domain: "",
@@ -192,7 +175,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-21",
     photoId: "FE-21",
-    photo: "/members/fe/FE-21.jpg",
     name: "OMESHWAR",
     bio: "",
     domain: "",
@@ -201,7 +183,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-22",
     photoId: "FE-22",
-    photo: "/members/fe/FE-22.jpg",
     name: "AYUSHMAAN",
     bio: "",
     domain: "",
@@ -210,7 +191,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-23",
     photoId: "FE-23",
-    photo: "/members/fe/FE-23.jpg",
     name: "DIYA RANA",
     bio: "",
     domain: "",
@@ -219,7 +199,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-24",
     photoId: "FE-24",
-    photo: "/members/fe/FE-24.jpg",
     name: "PAYAL",
     bio: "",
     domain: "",
@@ -228,7 +207,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-25",
     photoId: "FE-25",
-    photo: "/members/fe/FE-25.jpg",
     name: "Umesh Sharma",
     bio: "",
     domain: "",
@@ -237,7 +215,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-26",
     photoId: "FE-26",
-    photo: "/members/fe/FE-26.jpg",
     name: "Vivek",
     bio: "",
     domain: "",
@@ -246,7 +223,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-27",
     photoId: "FE-27",
-    photo: "/members/fe/FE-27.jpg",
     name: "Prince",
     bio: "",
     domain: "",
@@ -255,7 +231,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-28",
     photoId: "FE-28",
-    photo: "/members/fe/FE-28.jpg",
     name: "veshesh",
     bio: "",
     domain: "",
@@ -264,7 +239,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-29",
     photoId: "FE-29",
-    photo: "/members/fe/FE-29.jpg",
     name: "Rajvardhan",
     bio: "",
     domain: "",
@@ -273,7 +247,6 @@ export const feMembers: Member[] = [
   {
     id: "FE-30",
     photoId: "FE-30",
-    photo: "/members/fe/FE-30.jpg",
     name: "Abhishek Bhandari",
     bio: "",
     domain: "",
