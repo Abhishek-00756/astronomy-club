@@ -7,11 +7,11 @@ export default function MemberLanyardCard({
 }) {
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-[95] flex items-start justify-center overflow-y-auto bg-black/75 px-4 py-8 opacity-0 backdrop-blur-md transition-opacity duration-500 group-focus:pointer-events-auto group-focus:opacity-100"
+      className="pointer-events-none fixed inset-0 z-[95] flex items-start justify-center overflow-y-auto bg-black/75 px-4 py-8 opacity-0 backdrop-blur-md transition-opacity duration-500 group-focus:opacity-100"
     >
       <div className="relative mt-8 flex min-h-full w-full max-w-xl justify-center">
         <div className="absolute top-0 h-44 w-px bg-white/20" />
-        <div className="relative mt-44 w-full origin-top translate-y-[-24px] scale-[0.97] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-focus:translate-y-0 group-focus:scale-100">
+        <div className="pointer-events-auto relative mt-44 w-full origin-top translate-y-[-24px] scale-[0.97] transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-focus:translate-y-0 group-focus:scale-100">
           <div className="absolute left-1/2 top-[-13px] h-8 w-8 -translate-x-1/2 rounded-full border border-white/20 bg-[#11151d]" />
 
           <div className="overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#eef0f2] text-[#090b10] shadow-[0_35px_120px_rgba(0,0,0,.6)]">
