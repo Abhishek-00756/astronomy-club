@@ -1,301 +1,152 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, Stars } from "@react-three/drei";
-import { useRef } from "react";
+import { Float, Stars, useGLTF } from "@react-three/drei";
+import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 function Astronaut() {
   const groupRef = useRef<THREE.Group>(null);
   const { viewport } = useThree();
+  const { scene } = useGLTF("/models/astronaut.glb");
+
+  const model = useMemo(() => {
+    const clone = scene.clone(true);
+
+    // Normalize the downloaded model so the site layout does not depend
+    // on the source model's original unit scale or origin.
+    const box = new THREE.Box3().setFromObject(clone);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+
+    const maxDimension = Math.max(size.x, size.y, size.z) || 1;
+    const scale = 3.1 / maxDimension;
+
+    clone.scale.setScalar(scale);
+    clone.position.set(
+      -center.x * scale,
+      -center.y * scale,
+      -center.z * scale
+    );
+
+    return clone;
+  }, [scene]);
 
   useFrame((state) => {
     if (!groupRef.current) return;
 
     const narrow = viewport.width < 7;
-    const baseX = narrow ? 0.85 : 2.05;
-    const baseY = narrow ? -1.55 : -0.52;
-    const targetX = baseX + state.pointer.x * (narrow ? 0.16 : 0.32);
-    const targetY = baseY + state.pointer.y * (narrow ? 0.08 : 0.16);
+    const baseX = narrow ? 1.0 : 2.2;
+    const baseY = narrow ? -0.65 : 0.0;
+
+    const mouseX = state.pointer.x;
+    const mouseY = state.pointer.y;
 
     groupRef.current.position.x = THREE.MathUtils.lerp(
       groupRef.current.position.x,
-      targetX,
+      baseX + mouseX * (narrow ? 0.12 : 0.24),
       0.035
     );
 
     groupRef.current.position.y = THREE.MathUtils.lerp(
       groupRef.current.position.y,
-      targetY,
+      baseY + mouseY * (narrow ? 0.06 : 0.12),
       0.035
     );
 
     groupRef.current.rotation.y = THREE.MathUtils.lerp(
       groupRef.current.rotation.y,
-      targetX * 0.65,
-      0.04
+      -0.18 + mouseX * 0.42,
+      0.035
     );
 
     groupRef.current.rotation.x = THREE.MathUtils.lerp(
       groupRef.current.rotation.x,
-      -targetY * 0.45,
-      0.04
+      -mouseY * 0.16,
+      0.035
     );
 
     groupRef.current.rotation.z = THREE.MathUtils.lerp(
       groupRef.current.rotation.z,
-      state.pointer.x * 0.06,
+      mouseX * 0.055,
       0.025
     );
   });
 
   return (
-    <group ref={groupRef} position={[2.05, -0.52, -0.6]} rotation={[0.02, -0.18, 0.05]} scale={0.98}>
-      {/* Helmet */}
-      <Float speed={0.8} rotationIntensity={0.04} floatIntensity={0.28}>
-        <group position={[0, 1.25, 0]}>
-          <mesh>
-            <sphereGeometry args={[0.57, 48, 48]} />
-            <meshStandardMaterial
-              color="#e8ecef"
-              roughness={0.48}
-              metalness={0.12}
-            />
-          </mesh>
-
-          {/* Visor */}
-          <mesh position={[0, 0.02, 0.49]} scale={[0.78, 0.72, 0.36]}>
-            <sphereGeometry args={[0.44, 48, 32]} />
-            <meshStandardMaterial
-              color="#07111b"
-              roughness={0.16}
-              metalness={0.58}
-              emissive="#0a2437"
-              emissiveIntensity={0.45}
-            />
-          </mesh>
-
-          {/* Helmet rim */}
-          <mesh position={[0, -0.08, 0.14]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.49, 0.035, 16, 48]} />
-            <meshStandardMaterial
-              color="#b9c2c8"
-              roughness={0.34}
-              metalness={0.36}
-            />
-          </mesh>
-
-          {/* Side communication pods */}
-          <mesh position={[-0.55, 0.02, 0.02]}>
-            <cylinderGeometry args={[0.11, 0.11, 0.2, 20]} />
-            <meshStandardMaterial
-              color="#aeb8bf"
-              roughness={0.42}
-              metalness={0.3}
-            />
-          </mesh>
-
-          <mesh position={[0.55, 0.02, 0.02]}>
-            <cylinderGeometry args={[0.11, 0.11, 0.2, 20]} />
-            <meshStandardMaterial
-              color="#aeb8bf"
-              roughness={0.42}
-              metalness={0.3}
-            />
-          </mesh>
-        </group>
+    <group
+      ref={groupRef}
+      position={[2.2, 0, -0.8]}
+      rotation={[0, -0.18, 0.03]}
+    >
+      <Float
+        speed={0.85}
+        rotationIntensity={0.045}
+        floatIntensity={0.32}
+      >
+        <primitive object={model} />
       </Float>
-
-      {/* Torso */}
-      <mesh position={[0, 0.35, 0]}>
-        <boxGeometry args={[1.05, 1.45, 0.62]} />
-        <meshStandardMaterial
-          color="#d9dee2"
-          roughness={0.58}
-          metalness={0.08}
-        />
-      </mesh>
-
-      {/* Chest panel */}
-      <mesh position={[0, 0.42, 0.34]}>
-        <boxGeometry args={[0.52, 0.48, 0.055]} />
-        <meshStandardMaterial
-          color="#202a32"
-          roughness={0.4}
-          metalness={0.48}
-        />
-      </mesh>
-
-      <mesh position={[0, 0.56, 0.38]}>
-        <boxGeometry args={[0.1, 0.08, 0.03]} />
-        <meshBasicMaterial color="#67ddff" />
-      </mesh>
-
-      <mesh position={[0.16, 0.56, 0.38]}>
-        <boxGeometry args={[0.1, 0.08, 0.03]} />
-        <meshBasicMaterial color="#f4c86a" />
-      </mesh>
-
-      {/* Backpack */}
-      <mesh position={[0, 0.45, -0.46]}>
-        <boxGeometry args={[0.72, 1.18, 0.32]} />
-        <meshStandardMaterial
-          color="#c4cbd0"
-          roughness={0.58}
-          metalness={0.1}
-        />
-      </mesh>
-
-      {/* Arms */}
-      <group position={[-0.78, 0.45, 0]}>
-        <mesh rotation={[0, 0, -0.18]}>
-          <capsuleGeometry args={[0.18, 0.68, 8, 20]} />
-          <meshStandardMaterial
-            color="#d8dde1"
-            roughness={0.58}
-            metalness={0.08}
-          />
-        </mesh>
-
-        <mesh position={[-0.1, -0.58, 0]}>
-          <sphereGeometry args={[0.2, 28, 28]} />
-          <meshStandardMaterial
-            color="#c0c8cd"
-            roughness={0.6}
-            metalness={0.12}
-          />
-        </mesh>
-
-        <mesh position={[-0.12, -0.77, 0]}>
-          <boxGeometry args={[0.32, 0.3, 0.28]} />
-          <meshStandardMaterial
-            color="#e0e4e7"
-            roughness={0.55}
-            metalness={0.08}
-          />
-        </mesh>
-      </group>
-
-      <group position={[0.78, 0.45, 0]}>
-        <mesh rotation={[0, 0, 0.18]}>
-          <capsuleGeometry args={[0.18, 0.68, 8, 20]} />
-          <meshStandardMaterial
-            color="#d8dde1"
-            roughness={0.58}
-            metalness={0.08}
-          />
-        </mesh>
-
-        <mesh position={[0.1, -0.58, 0]}>
-          <sphereGeometry args={[0.2, 28, 28]} />
-          <meshStandardMaterial
-            color="#c0c8cd"
-            roughness={0.6}
-            metalness={0.12}
-          />
-        </mesh>
-
-        <mesh position={[0.12, -0.77, 0]}>
-          <boxGeometry args={[0.32, 0.3, 0.28]} />
-          <meshStandardMaterial
-            color="#e0e4e7"
-            roughness={0.55}
-            metalness={0.08}
-          />
-        </mesh>
-      </group>
-
-      {/* Hips */}
-      <mesh position={[0, -0.55, 0]}>
-        <boxGeometry args={[0.78, 0.42, 0.55]} />
-        <meshStandardMaterial
-          color="#cbd2d7"
-          roughness={0.6}
-          metalness={0.08}
-        />
-      </mesh>
-
-      {/* Legs */}
-      <group position={[-0.34, -1.25, 0]}>
-        <mesh>
-          <capsuleGeometry args={[0.22, 0.72, 8, 20]} />
-          <meshStandardMaterial
-            color="#d5dade"
-            roughness={0.6}
-            metalness={0.08}
-          />
-        </mesh>
-
-        <mesh position={[0, -0.62, 0.08]} scale={[1.05, 0.5, 1.35]}>
-          <sphereGeometry args={[0.25, 28, 28]} />
-          <meshStandardMaterial
-            color="#c1c8cd"
-            roughness={0.6}
-            metalness={0.08}
-          />
-        </mesh>
-      </group>
-
-      <group position={[0.34, -1.25, 0]}>
-        <mesh>
-          <capsuleGeometry args={[0.22, 0.72, 8, 20]} />
-          <meshStandardMaterial
-            color="#d5dade"
-            roughness={0.6}
-            metalness={0.08}
-          />
-        </mesh>
-
-        <mesh position={[0, -0.62, 0.08]} scale={[1.05, 0.5, 1.35]}>
-          <sphereGeometry args={[0.25, 28, 28]} />
-          <meshStandardMaterial
-            color="#c1c8cd"
-            roughness={0.6}
-            metalness={0.08}
-          />
-        </mesh>
-      </group>
     </group>
+  );
+}
+
+function SpaceLighting() {
+  return (
+    <>
+      <ambientLight intensity={0.32} />
+
+      <directionalLight
+        position={[-4, 5, 6]}
+        intensity={3.6}
+        color="#f7fbff"
+      />
+
+      <pointLight
+        position={[3, 1, 3]}
+        intensity={1.7}
+        distance={13}
+        color="#76dcff"
+      />
+
+      <pointLight
+        position={[-3, 0, 1]}
+        intensity={0.7}
+        distance={9}
+        color="#d9e7ff"
+      />
+    </>
   );
 }
 
 export default function AstronautScene() {
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 pointer-events-none">
       <Canvas
-        camera={{ position: [0, 0.15, 7], fov: 42 }}
+        camera={{ position: [0, 0.1, 7], fov: 40 }}
         dpr={[1, 1.75]}
-        gl={{ antialias: true, powerPreference: "high-performance" }}
+        gl={{
+          antialias: true,
+          powerPreference: "high-performance",
+        }}
       >
         <color attach="background" args={["#05070A"]} />
-        <fog attach="fog" args={["#05070A", 10, 30]} />
+        <fog attach="fog" args={["#05070A", 12, 32]} />
 
-        <ambientLight intensity={0.28} />
-
-        <directionalLight
-          position={[-4, 5, 5]}
-          intensity={3.2}
-          color="#f4f8ff"
-        />
-
-        <pointLight
-          position={[3, 1, 3]}
-          intensity={1.8}
-          distance={12}
-          color="#66dfff"
-        />
+        <SpaceLighting />
 
         <Stars
-          radius={45}
-          depth={20}
+          radius={42}
+          depth={18}
           count={650}
-          factor={1.3}
+          factor={1.25}
           saturation={0}
           fade
-          speed={0.08}
+          speed={0.06}
         />
 
-        <Astronaut />
+        <Suspense fallback={null}>
+          <Astronaut />
+        </Suspense>
       </Canvas>
     </div>
   );
