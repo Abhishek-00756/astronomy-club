@@ -51,21 +51,21 @@ export default function ContactHandCard() {
   }, []);
 
   return (
-    <div ref={hostRef} className="relative mx-auto w-full max-w-2xl">
+    <div ref={hostRef} className="relative -ml-8 w-full max-w-3xl sm:-ml-12 lg:-ml-20">
       <div className="pointer-events-none absolute -inset-10 rounded-[4rem] bg-[radial-gradient(circle_at_35%_50%,rgba(255,215,140,0.1),transparent_26%),radial-gradient(circle_at_62%_50%,rgba(96,202,255,0.12),transparent_34%)] blur-2xl" />
 
       <div
         ref={visualRef}
-        className="relative aspect-[1.825] will-change-transform [transform-style:preserve-3d]"
+        className="relative aspect-[1.55] will-change-transform [transform-style:preserve-3d]"
       >
         <img
-          src="/contact/hand-card.webp"
+          src="https://mir-s3-cdn-cf.behance.net/project_modules/max_632_webp/039f4797015327.5ebb8187d79bb.jpg"
           alt="Hand presenting an Astronomy Club card"
-          className="absolute inset-0 h-full w-full object-contain opacity-[0.98] grayscale brightness-[1.45] contrast-[0.82] drop-shadow-[0_30px_65px_rgba(0,0,0,0.45)]"
+          className="absolute inset-0 h-full w-full object-contain opacity-[0.9] grayscale invert brightness-[0.46] contrast-[1.15] drop-shadow-[0_30px_65px_rgba(0,0,0,0.45)]" style={{ transform: "scaleX(-1)" }}
           draggable={false}
         />
 
-        <div className="absolute left-[18%] top-[28%] h-[48%] w-[54%] overflow-hidden rounded-[1rem] border border-white/[0.12] bg-[linear-gradient(135deg,#f2e6c8_0%,#d2b778_42%,#a88748_100%)] shadow-[0_16px_35px_rgba(0,0,0,0.24)]">
+        <div className="absolute left-[37%] top-[28%] h-[48%] w-[45%] overflow-hidden rounded-[1rem] border border-white/[0.12] bg-[linear-gradient(135deg,#f2e6c8_0%,#d2b778_42%,#a88748_100%)] shadow-[0_16px_35px_rgba(0,0,0,0.24)]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_25%,rgba(255,255,255,0.34),transparent_34%),linear-gradient(135deg,transparent,rgba(7,10,16,0.1))]" />
 
           <div className="relative flex h-full flex-col justify-between p-4 text-[#0a0d14] sm:p-5">
