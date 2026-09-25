@@ -7,7 +7,7 @@ export default function MembersPageClient() {
   return (
     <main className="relative z-10 min-h-screen bg-transparent text-white">
       <section className="relative overflow-hidden border-b border-white/[0.05] bg-[#05070A]/[0.72]">
-        <div className="mx-auto flex min-h-[72vh] w-full max-w-7xl items-center px-6 py-32 sm:px-10 lg:px-16">
+        <div className="mx-auto flex min-h-[54vh] w-full max-w-7xl items-center px-6 py-24 sm:px-10 lg:px-16">
           <div className="max-w-4xl">
             <Link
               href="/"
