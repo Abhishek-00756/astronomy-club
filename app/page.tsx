@@ -10,7 +10,7 @@ export default function Home() {
 
         <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[6.5vh] text-center sm:px-10 md:pt-[7.5vh]">
           <div className="w-full max-w-5xl">
-            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] bg-gradient-to-r from-amber-200 via-white to-cyan-200 bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,206,130,0.18)] sm:text-xs md:text-sm">
+            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-amber-100/85 drop-shadow-[0_0_14px_rgba(255,206,130,0.2)] sm:text-xs md:text-sm">
               Army Institute of Technology • Pune
             </p>
 
@@ -18,29 +18,26 @@ export default function Home() {
               Astronomy
               <span className="block text-white/72">Club</span>
             </h1>
-
-            <p className="mx-auto mt-5 max-w-md text-sm leading-6 text-white/45 md:text-base">
-              Look up. Wonder. Discover.
-            </p>
-
-            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <a
-                href="#about"
-                className="pointer-events-auto rounded-full border border-cyan-200/35 bg-cyan-200/[0.06] px-7 py-3 text-xs font-medium uppercase tracking-[0.18em] text-cyan-50 transition duration-300 hover:border-cyan-100/50 hover:bg-cyan-200/[0.1]"
-              >
-                Explore the Club
-              </a>
-
-              <a
-                href="/events"
-                className="pointer-events-auto rounded-full border border-white/12 bg-white/[0.035] px-7 py-3 text-xs font-medium uppercase tracking-[0.18em] text-white/72 backdrop-blur-sm transition duration-300 hover:bg-white/[0.07]"
-              >
-                Upcoming Events
-              </a>
-            </div>
           </div>
         </div>
 
+        <div className="pointer-events-none absolute bottom-[12vh] left-1/2 z-10 flex w-full -translate-x-1/2 justify-center px-6 sm:bottom-[13vh]">
+          <div className="pointer-events-auto flex flex-col justify-center gap-3 sm:flex-row">
+            <a
+              href="#about"
+              className="rounded-full border border-cyan-200/35 bg-cyan-200/[0.06] px-7 py-3 text-xs font-medium uppercase tracking-[0.18em] text-cyan-50 transition duration-300 hover:border-cyan-100/50 hover:bg-cyan-200/[0.1]"
+            >
+              Explore the Club
+            </a>
+
+            <a
+              href="/events"
+              className="rounded-full border border-white/12 bg-white/[0.035] px-7 py-3 text-xs font-medium uppercase tracking-[0.18em] text-white/72 backdrop-blur-sm transition duration-300 hover:bg-white/[0.07]"
+            >
+              Upcoming Events
+            </a>
+          </div>
+        </div>
         <div className="pointer-events-none absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-[9px] uppercase tracking-[0.4em] text-white/25">
           Scroll to explore
         </div>
