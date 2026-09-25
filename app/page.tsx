@@ -21,7 +21,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute bottom-[5.5vh] left-1/2 z-10 flex w-full -translate-x-1/2 justify-center px-6 sm:bottom-[6.5vh]">
+        <div className="pointer-events-none absolute bottom-[3.5vh] left-1/2 z-10 flex w-full -translate-x-1/2 justify-center px-6 sm:bottom-[4.5vh]">
           <div className="pointer-events-auto flex flex-col justify-center gap-3 sm:flex-row">
             <a
               href="#about"
