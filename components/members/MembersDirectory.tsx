@@ -112,11 +112,6 @@ export default function MembersDirectory({
           Browse the club
         </p>
 
-        <h3 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.05em] sm:text-5xl md:text-6xl">
-          One sky.
-          <span className="text-white/42"> Different paths into it.</span>
-        </h3>
-
         <FlowingCategories
           active={activeCategory}
           onChange={(id) => setActiveCategory(id as CategoryKey)}
