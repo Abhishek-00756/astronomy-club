@@ -91,13 +91,13 @@ function CameraRig() {
   useFrame((state) => {
     state.camera.position.x = THREE.MathUtils.lerp(
       state.camera.position.x,
-      state.pointer.x * 0.28,
+      state.pointer.x * 0.10,
       0.025,
     );
 
     state.camera.position.y = THREE.MathUtils.lerp(
       state.camera.position.y,
-      state.pointer.y * 0.14,
+      state.pointer.y * 0.06,
       0.025,
     );
 
