@@ -8,7 +8,7 @@ export default function Home() {
       <section id="home" className="relative min-h-screen overflow-hidden">
         <SpaceScene />
 
-        <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[6.5vh] text-center sm:px-10 md:pt-[7.5vh]">
+        <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[10vh] text-center sm:px-10 md:pt-[10.5vh]">
           <div className="w-full max-w-5xl">
             <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-amber-100/85 drop-shadow-[0_0_14px_rgba(255,206,130,0.2)] sm:text-xs md:text-sm">
               Army Institute of Technology • Pune
@@ -160,7 +160,6 @@ export default function Home() {
       <footer className="border-t border-white/[0.05] bg-[#05070A]/[0.88] px-6 py-10 sm:px-10 lg:px-16">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 text-[9px] uppercase tracking-[0.22em] text-white/25 sm:flex-row sm:items-center sm:justify-between">
           <span>Astronomy Club · Army Institute of Technology · Pune</span>
-          <span>Look up. Wonder. Discover.</span>
         </div>
       </footer>
     </main>
