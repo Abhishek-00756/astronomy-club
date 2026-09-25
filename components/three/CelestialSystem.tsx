@@ -268,13 +268,13 @@ export default function CelestialSystem({
 
     systemRef.current.position.x = THREE.MathUtils.lerp(
       systemRef.current.position.x,
-      state.pointer.x * 0.34,
+      state.pointer.x * 0.10,
       0.032
     );
 
     systemRef.current.position.y = THREE.MathUtils.lerp(
       systemRef.current.position.y,
-      -1.85 + state.pointer.y * 0.12,
+      -1.85 + state.pointer.y * 0.045,
       0.032
     );
 
@@ -286,13 +286,13 @@ export default function CelestialSystem({
 
     systemRef.current.rotation.y = THREE.MathUtils.lerp(
       systemRef.current.rotation.y,
-      state.pointer.x * 0.16,
+      state.pointer.x * 0.055,
       0.032
     );
   });
 
   return (
-    <group ref={systemRef} position={[0, -2.85, -3.95]}>
+    <group ref={systemRef} position={[0, -3.05, -3.95]}>
       <Float speed={0.2} rotationIntensity={0.01} floatIntensity={0.035}>
         <group rotation={[0, -0.7, 0.02]}>
           <mesh ref={earthRef}>
