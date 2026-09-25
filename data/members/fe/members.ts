@@ -245,12 +245,5 @@ export const feMembers: Member[] = [
     domain: "",
     regNo: "260499",
   },
-  {
-    id: "FE-30",
-    photoId: "FE-30",
-    name: "Abhishek Bhandari",
-    bio: "",
-    domain: "",
-    regNo: "260576",
-  },
+  
 ];
