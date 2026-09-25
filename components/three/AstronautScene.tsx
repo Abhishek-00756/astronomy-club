@@ -2,12 +2,23 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Stars, useGLTF } from "@react-three/drei";
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 function Astronaut() {
   const groupRef = useRef<THREE.Group>(null);
   const { viewport } = useThree();
+  const mouse = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const onPointerMove = (event: PointerEvent) => {
+      mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = (event.clientY / window.innerHeight) * 2 - 1;
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onPointerMove);
+  }, []);
   const { scene } = useGLTF("/models/astronaut.glb");
 
   const model = useMemo(() => {
@@ -39,40 +50,46 @@ function Astronaut() {
     const baseX = narrow ? 1.0 : 2.2;
     const baseY = narrow ? -0.65 : 0.0;
 
-    const mouseX = state.pointer.x;
-    const mouseY = state.pointer.y;
+    const mouseX = mouse.current.x;
+    const mouseY = mouse.current.y;
 
     const idleX = Math.sin(state.clock.elapsedTime * 0.55) * (narrow ? 0.035 : 0.08);
     const idleY = Math.sin(state.clock.elapsedTime * 0.8) * (narrow ? 0.075 : 0.14);
 
+    const targetX =
+      baseX + mouseX * (narrow ? 0.38 : 0.7) + idleX;
+    const targetY =
+      baseY - mouseY * (narrow ? 0.24 : 0.42) + idleY;
+
     groupRef.current.position.x = THREE.MathUtils.lerp(
       groupRef.current.position.x,
-      baseX + mouseX * (narrow ? 0.14 : 0.28) + idleX,
-      0.035
+      targetX,
+      0.055
     );
 
     groupRef.current.position.y = THREE.MathUtils.lerp(
       groupRef.current.position.y,
-      baseY + mouseY * (narrow ? 0.08 : 0.14) + idleY,
-      0.035
+      targetY,
+      0.055
     );
 
     groupRef.current.rotation.y = THREE.MathUtils.lerp(
       groupRef.current.rotation.y,
-      -0.18 + mouseX * 0.42,
-      0.035
+      -0.18 + mouseX * (narrow ? 0.72 : 1.05),
+      0.06
     );
 
     groupRef.current.rotation.x = THREE.MathUtils.lerp(
       groupRef.current.rotation.x,
-      -mouseY * 0.16,
-      0.035
+      -mouseY * (narrow ? 0.34 : 0.52),
+      0.06
     );
 
     groupRef.current.rotation.z = THREE.MathUtils.lerp(
       groupRef.current.rotation.z,
-      mouseX * 0.055 + Math.sin(state.clock.elapsedTime * 0.45) * 0.018,
-      0.025
+      mouseX * (narrow ? 0.1 : 0.16) +
+        Math.sin(state.clock.elapsedTime * 0.45) * 0.018,
+      0.045
     );
   });
 
