@@ -48,6 +48,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-05",
     photoId: "FE-05",
+    photo: "/members/fe/FE-05.jpg",
     name: "Rubal Choudhary ",
     bio: "Bibliophile and forever curious",
     domain: "",
@@ -56,6 +57,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-06",
     photoId: "FE-06",
+    photo: "/members/fe/FE-06.jpg",
     name: "Prince",
     bio: "I am enthusiastic, crazy, optimistic and hard working.",
     domain: "",
@@ -64,6 +66,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-07",
     photoId: "FE-07",
+    photo: "/members/fe/FE-07.jpg",
     name: "Arindam Paul",
     bio: "Passionate, Entertaining and a cinephile",
     domain: "",
@@ -72,6 +75,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-08",
     photoId: "FE-08",
+    photo: "/members/fe/FE-08.jpg",
     name: "Sakshi",
     bio: "Calm, charming, and comfort-loving",
     domain: "",
@@ -80,6 +84,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-09",
     photoId: "FE-09",
+    photo: "/members/fe/FE-09.jpg",
     name: "Rachit",
     bio: "obsession is key to success",
     domain: "",
@@ -88,6 +93,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-10",
     photoId: "FE-10",
+    photo: "/members/fe/FE-10.jpg",
     name: "Diya Rana",
     bio: "Talkative and chaotic",
     domain: "",
@@ -96,6 +102,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-11",
     photoId: "FE-11",
+    photo: "/members/fe/FE-11.jpg",
     name: "Hasmukh",
     bio: "living up to the name, ironically",
     domain: "reel making",
@@ -104,6 +111,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-12",
     photoId: "FE-12",
+    photo: "/members/fe/FE-12.jpg",
     name: "Kaushal Kumar",
     bio: "just surviving,  sleep deprived",
     domain: "",
@@ -112,6 +120,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-13",
     photoId: "FE-13",
+    photo: "/members/fe/FE-13.jpg",
     name: "Payal",
     bio: "Curious mind.Cosmic dreams.",
     domain: "",
@@ -120,6 +129,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-14",
     photoId: "FE-14",
+    photo: "/members/fe/FE-14.jpg",
     name: "Bhawani",
     bio: "Among stars beyond limits",
     domain: "",
@@ -128,6 +138,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-15",
     photoId: "FE-15",
+    photo: "/members/fe/FE-15.jpg",
     name: "Raj Singh",
     bio: "The Sky Is Just The Beginning",
     domain: "",
@@ -136,6 +147,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-16",
     photoId: "FE-16",
+    photo: "/members/fe/FE-16.jpg",
     name: "Priya",
     bio: "lost in thoughts, found in stars",
     domain: "",
@@ -144,6 +156,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-17",
     photoId: "FE-17",
+    photo: "/members/fe/FE-17.jpg",
     name: "Debasmita",
     bio: "Exploring the universe, one star at a time",
     domain: "",
@@ -152,6 +165,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-18",
     photoId: "FE-18",
+    photo: "/members/fe/FE-18.jpg",
     name: "Sanjali",
     bio: "Optimist, Go getter, People magnet.",
     domain: "",
@@ -160,6 +174,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-19",
     photoId: "FE-19",
+    photo: "/members/fe/FE-19.jpg",
     name: "Vikram Singh",
     bio: "Blaming my sleep schedule on constellations",
     domain: "",
@@ -168,6 +183,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-20",
     photoId: "FE-20",
+    photo: "/members/fe/FE-20.jpg",
     name: "Parul",
     bio: "chasing stars , seeking answers",
     domain: "",
@@ -176,6 +192,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-21",
     photoId: "FE-21",
+    photo: "/members/fe/FE-21.jpg",
     name: "Ayush Singh Kushwah ",
     bio: "",
     domain: "reasearch and development",
@@ -184,6 +201,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-22",
     photoId: "FE-22",
+    photo: "/members/fe/FE-22.jpg",
     name: "Umesh Sharma",
     bio: "For the ideas worth chasing and the moments worth remembering",
     domain: "video editing",
@@ -192,6 +210,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-23",
     photoId: "FE-23",
+    photo: "/members/fe/FE-23.jpg",
     name: "Alina Kazmi",
     bio: "High on entropy, low on stability",
     domain: "Reel making",
@@ -200,6 +219,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-24",
     photoId: "FE-24",
+    photo: "/members/fe/FE-24.jpg",
     name: "Mohit choudhary",
     bio: "",
     domain: "",
@@ -208,6 +228,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-25",
     photoId: "FE-25",
+    photo: "/members/fe/FE-25.jpg",
     name: "Dhruv Dubey",
     bio: "Jack of all",
     domain: "",
@@ -216,6 +237,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-26",
     photoId: "FE-26",
+    photo: "/members/fe/FE-26.jpg",
     name: "panke sarthak devidas",
     bio: "Chasing tenths of a second",
     domain: "",
@@ -224,6 +246,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-27",
     photoId: "FE-27",
+    photo: "/members/fe/FE-27.jpg",
     name: "Abhishek Singh",
     bio: "You can sleep when you are dead",
     domain: "",
@@ -232,6 +255,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-28",
     photoId: "FE-28",
+    photo: "/members/fe/FE-28.jpg",
     name: "Ankita",
     bio: "curious mind,chaotic universe",
     domain: "Designing",
@@ -240,6 +264,7 @@ export const feMembers: Member[] = [
   {
     id: "FE-29",
     photoId: "FE-29",
+    photo: "/members/fe/FE-29.jpg",
     name: "Sneha singh",
     bio: "Eyes on the stars, thoughts in the void",
     domain: "",
