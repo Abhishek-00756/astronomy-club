@@ -8,13 +8,13 @@ export default function Home() {
       <section id="home" className="relative min-h-screen overflow-hidden">
         <SpaceScene />
 
-        <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[9vh] text-center sm:px-10 md:pt-[10vh]">
+        <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[6.5vh] text-center sm:px-10 md:pt-[7.5vh]">
           <div className="w-full max-w-5xl">
-            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] bg-gradient-to-r from-cyan-100 via-white to-amber-200 bg-clip-text text-transparent sm:text-xs md:text-sm">
+            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] bg-gradient-to-r from-amber-200 via-white to-cyan-200 bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(255,206,130,0.18)] sm:text-xs md:text-sm">
               Army Institute of Technology • Pune
             </p>
 
-            <h1 className="text-5xl font-semibold tracking-[-0.055em] sm:text-6xl md:text-7xl lg:text-[6.35rem]">
+            <h1 className="text-5xl font-semibold tracking-[-0.055em] drop-shadow-[0_8px_22px_rgba(0,0,0,0.55)] sm:text-6xl md:text-7xl lg:text-[6.35rem]">
               Astronomy
               <span className="block text-white/72">Club</span>
             </h1>
