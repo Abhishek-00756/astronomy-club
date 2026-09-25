@@ -25,28 +25,11 @@ export default function MembersPageClient() {
               The people
               <span className="block text-white/42">behind the stars.</span>
             </h1>
-
-            <p className="mt-7 max-w-2xl text-sm leading-7 text-white/45 sm:text-base">
-              Explore the club committee and student members through the same
-              flowing categories, dithered field and cinematic portrait gallery
-              used on the home page.
-            </p>
           </div>
         </div>
       </section>
 
       <MembersDirectory showIntro={false} />
-
-      <section className="border-t border-white/[0.05] bg-[#05070A]/[0.78] px-6 py-24 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/[0.08] bg-white/[0.02] px-6 py-12 sm:px-10">
-          <p className="text-[9px] uppercase tracking-[0.28em] text-cyan-100/42">
-            Member portraits
-          </p>
-          <h2 className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">
-            Add the official names and photos when the current committee list is ready.
-          </h2>
-        </div>
-      </section>
     </main>
   );
 }
