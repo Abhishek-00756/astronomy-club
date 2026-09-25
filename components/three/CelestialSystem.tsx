@@ -274,7 +274,7 @@ export default function CelestialSystem({
 
     systemRef.current.position.y = THREE.MathUtils.lerp(
       systemRef.current.position.y,
-      -1.85 + state.pointer.y * 0.045,
+      -2.93 + state.pointer.y * 0.045,
       0.032
     );
 
