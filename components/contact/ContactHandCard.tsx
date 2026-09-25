@@ -61,7 +61,7 @@ export default function ContactHandCard() {
         <img
           src="/contact/hand-card.webp"
           alt="Hand presenting an Astronomy Club card"
-          className="absolute inset-0 h-full w-full object-contain drop-shadow-[0_30px_65px_rgba(0,0,0,0.45)]"
+          className="absolute inset-0 h-full w-full object-contain opacity-[0.98] grayscale brightness-[1.45] contrast-[0.82] drop-shadow-[0_30px_65px_rgba(0,0,0,0.45)]"
           draggable={false}
         />
 
