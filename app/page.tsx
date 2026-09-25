@@ -8,9 +8,9 @@ export default function Home() {
       <section id="home" className="relative min-h-screen overflow-hidden">
         <SpaceScene />
 
-        <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[14vh] text-center sm:px-10 md:pt-[15vh]">
+        <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[9vh] text-center sm:px-10 md:pt-[10vh]">
           <div className="w-full max-w-5xl">
-            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/65 sm:text-xs md:text-sm">
+            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] bg-gradient-to-r from-cyan-100 via-white to-amber-200 bg-clip-text text-transparent sm:text-xs md:text-sm">
               Army Institute of Technology • Pune
             </p>
 
