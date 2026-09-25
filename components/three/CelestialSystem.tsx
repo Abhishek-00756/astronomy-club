@@ -292,7 +292,7 @@ export default function CelestialSystem({
   });
 
   return (
-    <group ref={systemRef} position={[0, -3.05, -3.95]}>
+    <group ref={systemRef} position={[0, -2.93, -3.95]}>
       <Float speed={0.2} rotationIntensity={0.01} floatIntensity={0.035}>
         <group rotation={[0, -0.7, 0.02]}>
           <mesh ref={earthRef}>
