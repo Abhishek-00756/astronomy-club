@@ -10,7 +10,7 @@ export default function Home() {
 
         <div className="pointer-events-none relative z-10 flex min-h-screen justify-center px-6 pt-[10vh] text-center sm:px-10 md:pt-[10.5vh]">
           <div className="w-full max-w-5xl">
-            <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-amber-100/85 drop-shadow-[0_0_14px_rgba(255,206,130,0.2)] sm:text-xs md:text-sm">
+            <p className="relative top-5 mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-amber-100/85 drop-shadow-[0_0_14px_rgba(255,206,130,0.2)] sm:text-xs md:text-sm">
               Army Institute of Technology • Pune
             </p>
 
@@ -21,7 +21,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute bottom-[12vh] left-1/2 z-10 flex w-full -translate-x-1/2 justify-center px-6 sm:bottom-[13vh]">
+        <div className="pointer-events-none absolute bottom-[8vh] left-1/2 z-10 flex w-full -translate-x-1/2 justify-center px-6 sm:bottom-[9vh]">
           <div className="pointer-events-auto flex flex-col justify-center gap-3 sm:flex-row">
             <a
               href="#about"
