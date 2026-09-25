@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import DitherVeil from "@/components/members/DitherVeil";
 import FlowingCategories from "@/components/members/FlowingCategories";
 import MemberGalleryInteractive, {
   type MemberProfile,
@@ -107,10 +106,6 @@ export default function MembersDirectory({
           </p>
         </div>
       )}
-
-      <div className={showIntro ? "mt-14" : "mt-0"}>
-        <DitherVeil />
-      </div>
 
       <div className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-16">
         <p className="text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
