@@ -37,8 +37,8 @@ export default function GlobalStarfield() {
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
       const count = Math.min(
-        850,
-        Math.max(420, Math.floor((width * height) / 3800)),
+        620,
+        Math.max(320, Math.floor((width * height) / 5200)),
       );
 
       stars = Array.from({ length: count }, () => ({
