@@ -79,7 +79,7 @@ function Rope({
   const clipRotate = useTransform(dragX, [-280, 0, 280], [-16, 0, 16]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[110]">
+    <div className="pointer-events-none fixed inset-0 z-0">
       <svg
         width="100%"
         height="100%"
@@ -160,7 +160,7 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
   const dragY = useMotionValue(0);
 
   const cardRotate = useTransform(dragX, [-280, 0, 280], [-10, 0, 10]);
-  const anchorY = 256;
+  const anchorY = 318;
 
   useEffect(() => {
     if (!member) return;
@@ -219,6 +219,7 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
             >
               <motion.div
                 drag
+                className="relative z-10 origin-top cursor-grab touch-none select-none"
                 dragConstraints={{
                   left: -280,
                   right: 280,
@@ -254,8 +255,7 @@ export default function MemberLanyardCard({ member, onClose }: Props) {
                     mass: 0.9,
                   });
                 }}
-                className="origin-top cursor-grab touch-none select-none"
-              >
+               >
                 <div className="relative">
                   <div className="absolute left-1/2 top-[-0.85rem] z-20 h-8 w-8 -translate-x-1/2 rounded-full border-[4px] border-[#05070A] bg-[#11151d] shadow-lg" />
 
