@@ -62,7 +62,7 @@ export default function ContactHandCard() {
 
       <div
         ref={visualRef}
-        className="relative mx-auto aspect-[1.65] w-full max-w-[760px] origin-center will-change-transform [transform-style:preserve-3d]"
+        className="relative mx-auto aspect-[1.486] w-full max-w-[560px] origin-center will-change-transform [transform-style:preserve-3d]"
       >
         <img
           src="/contact-hand-card.webp"
