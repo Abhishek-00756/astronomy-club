@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import FlowingCategories from "@/components/members/FlowingCategories";
-import MemberGalleryInteractive, {
-  type MemberProfile,
-} from "@/components/members/MemberGalleryInteractive";
+import MemberGalleryInteractive from "@/components/members/MemberGalleryInteractive";
+import type { MemberProfile } from "@/components/members/MemberGallery";
 import { secretaries } from "@/data/members/secretaries/members";
 import { teMembers } from "@/data/members/te/members";
 import { jointSecretaries } from "@/data/members/joint-secretaries/members";
