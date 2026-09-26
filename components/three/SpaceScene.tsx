@@ -11,7 +11,7 @@ function MovingStars() {
   const pointsRef = useRef<THREE.Points>(null);
 
   const { positions, baseZ, speeds } = useMemo(() => {
-    const count = 1600;
+    const count = 1050;
     const positions = new Float32Array(count * 3);
     const baseZ = new Float32Array(count);
     const speeds = new Float32Array(count);
@@ -126,7 +126,7 @@ function SpaceObjects({
       <Stars
         radius={110}
         depth={70}
-        count={2200}
+        count={1500}
         factor={1.8}
         saturation={0}
         fade
@@ -204,7 +204,7 @@ export default function SpaceScene() {
             near: 0.1,
             far: 200,
           }}
-          dpr={[1, 1.35]}
+          dpr={[1, 1.25]}
           gl={{
             antialias: true,
             powerPreference: "high-performance",
