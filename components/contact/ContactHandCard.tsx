@@ -19,6 +19,8 @@ export default function ContactHandCard() {
   const translateX = useTransform(springX, [-1, 1], [-18, 18]);
   const translateY = useTransform(springY, [-1, 1], [-12, 12]);
   const shadowX = useTransform(springX, [-1, 1], [-18, 18]);
+  const shineLeft = useTransform(springX, [-1, 1], ["-25%", "105%"]);
+  const highlightOpacity = useTransform(springX, [-1, 0, 1], [0.7, 1, 0.7]);
 
   const handleMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -114,7 +116,7 @@ export default function ContactHandCard() {
             aria-hidden="true"
             className="absolute -top-[20%] h-[140%] w-[28%] bg-gradient-to-r from-transparent via-white/55 to-transparent blur-2xl"
             style={{
-              left: useTransform(springX, [-1, 1], ["-25%", "105%"]),
+              left: shineLeft,
               rotate: 18,
             }}
           />
@@ -153,7 +155,7 @@ export default function ContactHandCard() {
           className="pointer-events-none absolute inset-0 rounded-[34px] bg-[radial-gradient(circle_at_24%_20%,rgba(255,255,255,.25),transparent_18%),radial-gradient(circle_at_76%_34%,rgba(255,241,183,.18),transparent_21%)] mix-blend-screen"
           style={{
             transform: "translateZ(30px)",
-            opacity: useTransform(springX, [-1, 0, 1], [0.7, 1, 0.7]),
+            opacity: highlightOpacity,
           }}
         />
       </motion.div>
