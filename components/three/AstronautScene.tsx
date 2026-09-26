@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Stars, useGLTF } from "@react-three/drei";
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 function Astronaut() {
@@ -139,11 +139,29 @@ function SpaceLighting() {
 }
 
 export default function AstronautScene() {
+  const [visible, setVisible] = useState(true);
+  const hostRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const host = hostRef.current;
+    if (!host) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(Boolean(entry?.isIntersecting)),
+      { rootMargin: "120px" },
+    );
+
+    observer.observe(host);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div ref={hostRef} className="absolute inset-0 pointer-events-none">
+      {visible && (
       <Canvas
         camera={{ position: [0, 0.1, 7], fov: 40 }}
-        dpr={[1, 1.75]}
+        dpr={[1, 1.35]}
         gl={{
           antialias: true,
           alpha: true,
@@ -156,7 +174,7 @@ export default function AstronautScene() {
         <Stars
           radius={42}
           depth={18}
-          count={650}
+          count={350}
           factor={1.25}
           saturation={0}
           fade
@@ -167,6 +185,7 @@ export default function AstronautScene() {
           <Astronaut />
         </Suspense>
       </Canvas>
+      )}
     </div>
   );
 }
