@@ -14,11 +14,11 @@ export default function ContactHandCard() {
   const springX = useSpring(mx, { stiffness: 180, damping: 22, mass: 0.7 });
   const springY = useSpring(my, { stiffness: 180, damping: 22, mass: 0.7 });
 
-  const rotateY = useTransform(springX, [-1, 1], [-14, 14]);
-  const rotateX = useTransform(springY, [-1, 1], [10, -10]);
-  const translateX = useTransform(springX, [-1, 1], [-18, 18]);
-  const translateY = useTransform(springY, [-1, 1], [-12, 12]);
-  const shadowX = useTransform(springX, [-1, 1], [-18, 18]);
+  const rotateY = useTransform(springX, [-1, 1], [-22, 22]);
+  const rotateX = useTransform(springY, [-1, 1], [16, -16]);
+  const translateX = useTransform(springX, [-1, 1], [-24, 24]);
+  const translateY = useTransform(springY, [-1, 1], [-18, 18]);
+  const shadowX = useTransform(springX, [-1, 1], [-28, 28]);
   const shineLeft = useTransform(springX, [-1, 1], ["-25%", "105%"]);
   const highlightOpacity = useTransform(springX, [-1, 0, 1], [0.7, 1, 0.7]);
 
@@ -54,27 +54,27 @@ export default function ContactHandCard() {
       <div className="pointer-events-none absolute inset-[-12%] rounded-[5rem] bg-[radial-gradient(circle_at_45%_48%,rgba(255,197,92,0.24),transparent_30%),radial-gradient(circle_at_60%_48%,rgba(104,205,255,0.08),transparent_52%)] blur-3xl" />
 
       <motion.div
-        className="relative mx-auto aspect-[1.62] w-full max-w-[650px] [transform-style:preserve-3d]"
+        className="relative mx-auto aspect-[1.62] w-full max-w-[650px] [transform-style:preserve-3d] cursor-pointer"
         style={{
           rotateX,
           rotateY,
           x: translateX,
           y: translateY,
-          transformPerspective: 1400,
+          transformPerspective: 1600,
         }}
         initial={{ rotateZ: 0, scale: 0.98 }}
         animate={{
-          rotateZ: [0, 0.45, 0, -0.45, 0],
-          scale: [0.98, 1, 0.98],
+          rotateZ: [0, 0.8, 0, -0.8, 0],
+          scale: [0.985, 1.015, 0.985],
         }}
         transition={{
           rotateZ: {
-            duration: 7,
+            duration: 6,
             repeat: Infinity,
             ease: "easeInOut",
           },
           scale: {
-            duration: 5,
+            duration: 4.5,
             repeat: Infinity,
             ease: "easeInOut",
           },
@@ -85,7 +85,7 @@ export default function ContactHandCard() {
           className="absolute inset-[4%] translate-y-[14px] rounded-[30px] bg-[#6f541f]"
           style={{
             x: shadowX,
-            transform: "translateZ(-38px) scale(0.985)",
+            transform: "translateZ(-44px) scale(0.97)",
             boxShadow: "0 42px 70px rgba(0,0,0,.62)",
           }}
         />
@@ -94,7 +94,7 @@ export default function ContactHandCard() {
           aria-hidden="true"
           className="absolute inset-[2%] rounded-[30px] border border-[#fff1c7]/55 bg-[linear-gradient(145deg,#fff4c8_0%,#ebd494_16%,#c59d51_51%,#8e672d_82%,#d3b66d_100%)]"
           style={{
-            transform: "translateZ(-16px)",
+            transform: "translateZ(-22px) scale(0.985)",
             boxShadow:
               "inset 3px 3px 0 rgba(255,255,255,.4), inset -6px -7px 0 rgba(72,45,6,.24), 0 28px 60px rgba(0,0,0,.45)",
           }}
@@ -154,7 +154,7 @@ export default function ContactHandCard() {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 rounded-[34px] bg-[radial-gradient(circle_at_24%_20%,rgba(255,255,255,.25),transparent_18%),radial-gradient(circle_at_76%_34%,rgba(255,241,183,.18),transparent_21%)] mix-blend-screen"
           style={{
-            transform: "translateZ(30px)",
+            transform: "translateZ(42px) scale(1.002)",
             opacity: highlightOpacity,
           }}
         />
