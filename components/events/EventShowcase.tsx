@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 type EventKey = "astrothon" | "shaam-e-shani";
@@ -31,7 +31,7 @@ const events: Array<{
   },
 ];
 
-function DriftWall() {
+function DriftWall({ images }: { images: string[] }) {
   const cards = [
     ["ASTRO", "THON", "amber"],
     ["ORBIT", "LAB", "blue"],
@@ -61,40 +61,52 @@ function DriftWall() {
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       >
         <div className="grid grid-cols-3 gap-5 opacity-80">
-          {cards.map(([title, subtitle, tone], index) => (
-            <motion.div
-              key={title}
-              animate={{
-                y: [index % 2 === 0 ? -18 : 14, index % 2 === 0 ? 14 : -18],
-                rotate: [index % 3 === 0 ? -3 : 2, index % 3 === 0 ? 2 : -2],
-              }}
-              transition={{
-                duration: 7 + (index % 3),
-                repeat: Infinity,
-                repeatType: "mirror",
-                ease: "easeInOut",
-                delay: index * 0.18,
-              }}
-              className="aspect-[1.18] overflow-hidden rounded-[22px] border border-white/[0.07] bg-[#0b1016] shadow-[0_25px_60px_rgba(0,0,0,.34)]"
-            >
-              <div className={"h-full w-full bg-gradient-to-br " + tones[tone] + " p-5"}>
-                <div className="flex h-full flex-col justify-between">
-                  <div className="h-20 rounded-xl border border-white/[0.08] bg-white/[0.015] opacity-70" />
-                  <div>
-                    <p className="text-[9px] uppercase tracking-[0.28em] text-white/38">
-                      ASTRONOMY CLUB
-                    </p>
-                    <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-white/82">
-                      {title}
-                    </p>
-                    <p className="text-3xl font-semibold tracking-[-0.05em] text-white/30">
-                      {subtitle}
-                    </p>
-                  </div>
+          {cards.map(([title, subtitle, tone], index) => {
+            const image = images[index % Math.max(images.length, 1)];
+
+            return (
+              <motion.div
+                key={image ? `${image}-${index}` : `${title}-${index}`}
+                animate={{
+                  y: [index % 2 === 0 ? -18 : 14, index % 2 === 0 ? 14 : -18],
+                  rotate: [index % 3 === 0 ? -3 : 2, index % 3 === 0 ? 2 : -2],
+                }}
+                transition={{
+                  duration: 7 + (index % 3),
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                  ease: "easeInOut",
+                  delay: index * 0.18,
+                }}
+                className="relative aspect-[1.18] overflow-hidden rounded-[22px] border border-white/[0.07] bg-[#0b1016] shadow-[0_25px_60px_rgba(0,0,0,.34)]"
+              >
+                {image ? (
+                  <img
+                    src={image}
+                    alt=""
+                    draggable={false}
+                    className="absolute inset-0 h-full w-full object-cover opacity-75 transition-transform duration-700 hover:scale-105"
+                  />
+                ) : (
+                  <div className={`absolute inset-0 bg-gradient-to-br ${tones[tone]}`} />
+                )}
+
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,13,.08),rgba(7,9,13,.72))]" />
+
+                <div className="absolute inset-x-5 bottom-5">
+                  <p className="text-[8px] uppercase tracking-[0.26em] text-white/55">
+                    ASTRONOMY CLUB
+                  </p>
+                  <p className="mt-1 text-xl font-semibold tracking-[-0.04em] text-white/90">
+                    {title}
+                  </p>
+                  <p className="text-2xl font-semibold tracking-[-0.05em] text-white/35">
+                    {subtitle}
+                  </p>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </motion.div>
 
@@ -175,6 +187,26 @@ function OptionWheel() {
 
 export default function EventShowcase() {
   const [active, setActive] = useState<EventKey>("astrothon");
+  const [astrothonImages, setAstrothonImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (active !== "astrothon") return;
+
+    let cancelled = false;
+
+    fetch("/api/events/astrothon", { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : { images: [] }))
+      .then((data: { images?: string[] }) => {
+        if (!cancelled) setAstrothonImages(data.images ?? []);
+      })
+      .catch(() => {
+        if (!cancelled) setAstrothonImages([]);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [active]);
   const selected = events.find((event) => event.key === active)!;
 
   return (
@@ -253,7 +285,7 @@ export default function EventShowcase() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
         >
-          {active === "astrothon" ? <DriftWall /> : <OptionWheel />}
+          {active === "astrothon" ? <DriftWall images={astrothonImages} /> : <OptionWheel />}
         </motion.div>
       </section>
     </div>
