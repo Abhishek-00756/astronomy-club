@@ -72,32 +72,6 @@ export default function ContactPage() {
                 </p>
               </a>
 
-              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5 transition hover:border-cyan-100/16 hover:bg-white/[0.04]">
-                <div className="flex items-start justify-between">
-                  <p className="text-[8px] uppercase tracking-[0.28em] text-cyan-100/45">
-                    Campus
-                  </p>
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.025] text-white/45">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-[15px] w-[15px]"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                      aria-hidden="true"
-                    >
-                      <path d="M20 10.2c0 5.2-8 10.3-8 10.3S4 15.4 4 10.2a8 8 0 1 1 16 0Z" />
-                      <circle cx="12" cy="10" r="2.6" />
-                    </svg>
-                  </span>
-                </div>
-                <p className="mt-2 text-base font-medium text-white/82">
-                  AIT · Pune
-                </p>
-                <p className="mt-1 text-xs text-white/30">
-                  Connect through club activities
-                </p>
-              </div>
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
