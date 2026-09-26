@@ -25,7 +25,7 @@ uniform float uSpeed;
 varying vec2 vUv;
 
 #define PI 3.14159265359
-#define LAYERS 3
+#define LAYERS 2
 
 float hash21(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
