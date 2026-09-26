@@ -90,7 +90,7 @@ export default function MembersDirectory({
   return (
     <>
       {showIntro && (
-        <div className="mx-auto max-w-7xl px-6 pt-16 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-7xl px-6 pt-10 sm:px-10 lg:px-16">
           <p className="text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
             02 / The People
           </p>
@@ -106,7 +106,7 @@ export default function MembersDirectory({
         </div>
       )}
 
-      <div className="mx-auto w-full max-w-7xl px-6 py-6 sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-7xl px-6 py-5 sm:px-10 lg:px-16">
         <p className="text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
           Browse the club
         </p>
@@ -116,7 +116,7 @@ export default function MembersDirectory({
           onChange={(id) => setActiveCategory(id as CategoryKey)}
         />
 
-        <div className="mt-7 flex flex-col gap-5 border-b border-white/[0.07] pb-8 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mt-6 flex flex-col gap-4 border-b border-white/[0.07] pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-[9px] uppercase tracking-[0.26em] text-cyan-100/42">
               {source.title}
