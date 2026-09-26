@@ -12,15 +12,15 @@ export const jointSecretaries: Member[] = [
   {
     id: "JS-01",
     photoId: "JS-01",
-    name: "Name to be added",
-    bio: "",
+    name: "Abhishek Shaw",
+    bio: "It's just an illusion",
     domain: "",
   },
   {
     id: "JS-02",
     photoId: "JS-02",
-    name: "Name to be added",
-    bio: "",
+    name: "Bhavishya",
+    bio: "schizophrenic",
     domain: "",
   },
   {
