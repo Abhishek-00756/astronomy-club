@@ -1,20 +1,21 @@
+import EventShowcase from "@/components/events/EventShowcase";
+
 export default function EventsPage() {
   return (
-    <main className="relative z-10 min-h-screen bg-[#05070A]/[0.78] text-white">
-      <section className="mx-auto flex min-h-screen max-w-7xl items-center px-6 py-32 sm:px-10 lg:px-16">
-        <div className="max-w-4xl">
-          <p className="text-[10px] uppercase tracking-[0.34em] text-cyan-200/55">
+    <main className="relative z-10 min-h-screen overflow-hidden bg-[#05070A]/[0.82] text-white">
+      <section className="mx-auto min-h-screen max-w-[1400px] px-6 pb-24 pt-32 sm:px-10 sm:pt-36 lg:px-16">
+        <div className="mb-14 max-w-4xl">
+          <p className="text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
             03 / Events
           </p>
+
           <h1 className="mt-5 text-6xl font-semibold tracking-[-0.06em] sm:text-7xl md:text-[6.8rem]">
-            Look up.
-            <span className="block text-white/42">Then go observe.</span>
+            From ideas
+            <span className="block text-white/35">to nights under stars.</span>
           </h1>
-          <p className="mt-7 max-w-2xl text-sm leading-7 text-white/45 sm:text-base">
-            This page is ready for the upcoming-event timeline, observation
-            nights, workshops, talks and the full past-events archive.
-          </p>
         </div>
+
+        <EventShowcase />
       </section>
     </main>
   );
