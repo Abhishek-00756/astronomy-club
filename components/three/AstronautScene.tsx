@@ -161,7 +161,7 @@ export default function AstronautScene() {
       {visible && (
       <Canvas
         camera={{ position: [0, 0.1, 7], fov: 40 }}
-        dpr={[1, 1.35]}
+        dpr={[1, 1.25]}
         gl={{
           antialias: true,
           alpha: true,
@@ -174,7 +174,7 @@ export default function AstronautScene() {
         <Stars
           radius={42}
           depth={18}
-          count={350}
+          count={280}
           factor={1.25}
           saturation={0}
           fade
