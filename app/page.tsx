@@ -48,11 +48,11 @@ export default function Home() {
 
       <section
         id="about"
-        className="relative min-h-screen overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.36]"
+        className="relative min-h-[84vh] overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3]"
       >
         <AstronautScene />
 
-        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl items-center px-6 py-28 sm:px-10 lg:px-16">
+        <div className="relative z-10 mx-auto flex min-h-[84vh] w-full max-w-7xl items-center px-6 py-20 sm:px-10 lg:px-16">
           <ScrollReveal className="max-w-2xl">
             <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
               01 / About the Club
@@ -105,7 +105,7 @@ export default function Home() {
 
       <section
         id="events"
-        className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3] px-6 py-28 sm:px-10 lg:px-16"
+        className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3] px-6 py-20 sm:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-7xl">
           <ScrollReveal>
@@ -181,7 +181,7 @@ export default function Home() {
 
       <section
         id="contact"
-        className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.34] px-6 py-28 sm:px-10 lg:px-16"
+        className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.34] px-6 py-20 sm:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="grid items-center gap-14 lg:grid-cols-[0.94fr_1.06fr]">
