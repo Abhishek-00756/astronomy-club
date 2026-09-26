@@ -38,39 +38,38 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              <a
-                href="https://www.instagram.com/astro.club_ait/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Open Astronomy Club Instagram"
-                className="group rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5 transition hover:border-[#d9a94a]/35 hover:bg-[#d9a94a]/[0.045]"
-              >
-                <div className="flex items-start justify-between">
-                  <p className="text-[8px] uppercase tracking-[0.28em] text-cyan-100/45">
-                    Social
-                  </p>
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.025] text-white/55 transition group-hover:border-[#d9a94a]/40 group-hover:text-[#e3bb67]">
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5 transition hover:border-[#d9a94a]/25 hover:bg-white/[0.04]">
+                <p className="text-[8px] uppercase tracking-[0.28em] text-cyan-100/45">
+                  Social
+                </p>
+
+                <div className="mt-5 flex flex-col items-center text-center">
+                  <a
+                    href="https://www.instagram.com/astro.club_ait/"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open Astronomy Club Instagram"
+                    className="group flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.025] text-white/70 shadow-[0_0_28px_rgba(217,169,74,0.04)] transition duration-300 hover:-translate-y-1 hover:border-[#d9a94a]/45 hover:bg-[#d9a94a]/[0.08] hover:text-[#e7c273] hover:shadow-[0_0_34px_rgba(217,169,74,0.14)]"
+                  >
                     <svg
                       viewBox="0 0 24 24"
-                      className="h-[15px] w-[15px]"
+                      className="h-7 w-7"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1.8"
+                      strokeWidth="1.65"
                       aria-hidden="true"
                     >
-                      <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
-                      <circle cx="12" cy="12" r="4" />
-                      <circle cx="17.4" cy="6.7" r="1" fill="currentColor" stroke="none" />
+                      <rect x="3.5" y="3.5" width="17" height="17" rx="4.8" />
+                      <circle cx="12" cy="12" r="4.1" />
+                      <circle cx="17.25" cy="6.75" r="1.05" fill="currentColor" stroke="none" />
                     </svg>
-                  </span>
+                  </a>
+
+                  <p className="mt-4 text-sm font-medium tracking-[0.02em] text-white/82 sm:text-base">
+                    @astro.club_ait
+                  </p>
                 </div>
-                <p className="mt-2 text-base font-medium text-white/82">
-                  Instagram
-                </p>
-                <p className="mt-1 text-xs text-white/30">
-                  @astro.club_ait
-                </p>
-              </a>
+              </div>
 
             </div>
 
