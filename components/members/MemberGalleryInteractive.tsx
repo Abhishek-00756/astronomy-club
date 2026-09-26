@@ -66,7 +66,6 @@ function MemberCard({
   member,
   index,
   active = true,
-  mobile = false,
   onActivate,
   onSelect,
 }: {
@@ -128,7 +127,6 @@ function MemberCard({
               sizes="(max-width: 1023px) 50vw, 28vw"
               quality={72}
               loading="lazy"
-              priority={false}
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
             />
           ) : (
