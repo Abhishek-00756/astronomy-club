@@ -146,11 +146,10 @@ export default function AstronautScene() {
         dpr={[1, 1.75]}
         gl={{
           antialias: true,
+          alpha: true,
           powerPreference: "high-performance",
         }}
       >
-        <color attach="background" args={["#05070A"]} />
-        <fog attach="fog" args={["#05070A", 12, 32]} />
 
         <SpaceLighting />
 
