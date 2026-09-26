@@ -48,11 +48,11 @@ export default function Home() {
 
       <section
         id="about"
-        className="relative min-h-[84vh] overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3]"
+        className="lazy-section relative min-h-[78vh] overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3]"
       >
         <AstronautScene />
 
-        <div className="relative z-10 mx-auto flex min-h-[84vh] w-full max-w-7xl items-center px-6 py-20 sm:px-10 lg:px-16">
+        <div className="relative z-10 mx-auto flex min-h-[78vh] w-full max-w-7xl items-center px-6 py-20 sm:px-10 lg:px-16">
           <ScrollReveal className="max-w-2xl">
             <p className="mb-5 text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
               01 / About the Club
@@ -96,7 +96,7 @@ export default function Home() {
 
       <section
         id="members"
-        className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3] py-8"
+        className="lazy-section relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3] py-4"
       >
         <ScrollReveal>
           <MembersDirectory />
@@ -105,7 +105,7 @@ export default function Home() {
 
       <section
         id="events"
-        className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3] px-6 py-20 sm:px-10 lg:px-16"
+        className="lazy-section relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.3] px-6 py-16 sm:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-7xl">
           <ScrollReveal>
@@ -181,7 +181,7 @@ export default function Home() {
 
       <section
         id="contact"
-        className="relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.34] px-6 py-20 sm:px-10 lg:px-16"
+        className="lazy-section relative overflow-hidden border-t border-white/[0.04] bg-[#05070A]/[0.34] px-6 py-16 sm:px-10 lg:px-16"
       >
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="grid items-center gap-14 lg:grid-cols-[0.94fr_1.06fr]">
@@ -229,7 +229,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-white/[0.05] bg-[#05070A]/[0.45] px-6 py-10 sm:px-10 lg:px-16">
+      <footer className="lazy-section border-t border-white/[0.05] bg-[#05070A]/[0.45] px-6 py-10 sm:px-10 lg:px-16">
         <ScrollReveal className="mx-auto flex max-w-7xl flex-col gap-3 text-[9px] uppercase tracking-[0.22em] text-white/25 sm:flex-row sm:items-center sm:justify-between">
           <span>Astronomy Club · Army Institute of Technology · Pune</span>
           <a href="https://www.instagram.com/astro.club_ait/" target="_blank" rel="noreferrer" className="transition hover:text-white/55">
