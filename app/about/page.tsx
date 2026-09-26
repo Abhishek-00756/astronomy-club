@@ -14,14 +14,18 @@ export default function AboutPage() {
               Curiosity begins
               <span className="block text-white/42">when we look up.</span>
             </h1>
-            <div className="mt-8 max-w-xl space-y-5 text-sm leading-7 text-white/50 sm:text-base">
+            <div className="mt-8 max-w-2xl space-y-5 text-sm leading-7 text-white/50 sm:text-base">
               <p>
-                Demo copy — replace this with the official Astronomy Club
-                description, its purpose, history and activities.
+                The Astronomy Club at Army Institute of Technology, Pune is a
+                student community built around a shared curiosity for the night
+                sky, space science and the questions that lie beyond our
+                everyday view.
               </p>
               <p>
-                The visual language keeps the night sky, motion and exploration
-                at the center while leaving the club&apos;s story easy to read.
+                From observing the sky to discussing missions, astronomy and
+                exploration, the club brings students together to learn,
+                experiment, create and experience the universe beyond the
+                classroom.
               </p>
             </div>
           </div>
