@@ -12,6 +12,7 @@ export const jointSecretaries: Member[] = [
   {
     id: "JS-01",
     photoId: "JS-01",
+    photo: "/members/joint-secretaries/SE-01.jpg",
     name: "Abhishek Shaw",
     bio: "It's just an illusion",
     domain: "",
@@ -19,6 +20,7 @@ export const jointSecretaries: Member[] = [
   {
     id: "JS-02",
     photoId: "JS-02",
+    photo: "/members/joint-secretaries/SE-02.jpg",
     name: "Bhavishya",
     bio: "schizophrenic",
     domain: "",
