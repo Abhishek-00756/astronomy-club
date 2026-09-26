@@ -82,7 +82,7 @@ export default function ContactHandCard() {
       >
         <motion.div
           aria-hidden="true"
-          className="absolute inset-[4%] translate-y-[14px] rounded-[30px] bg-[#6f541f]"
+          className="absolute inset-[4%] translate-y-[14px] rounded-[30px] bg-[#76531d]"
           style={{
             x: shadowX,
             transform: "translateZ(-44px) scale(0.97)",
@@ -92,7 +92,7 @@ export default function ContactHandCard() {
 
         <div
           aria-hidden="true"
-          className="absolute inset-[2%] rounded-[30px] border border-[#fff1c7]/55 bg-[linear-gradient(145deg,#fff4c8_0%,#ebd494_16%,#c59d51_51%,#8e672d_82%,#d3b66d_100%)]"
+          className="absolute inset-[2%] rounded-[30px] border border-[#fff1c7]/55 bg-[linear-gradient(145deg,#fff0b8_0%,#f1d487_14%,#d2ae63_34%,#b88735_58%,#8b6328_82%,#d9b864_100%)]"
           style={{
             transform: "translateZ(-22px) scale(0.985)",
             boxShadow:
@@ -101,7 +101,7 @@ export default function ContactHandCard() {
         />
 
         <div
-          className="absolute inset-0 overflow-hidden rounded-[30px] border border-[#fff3c4]/90 bg-[linear-gradient(135deg,#fff2bd 0%,#e8cc88 20%,#c8a45d 50%,#9a7436 78%,#ddc17a 100%)]"
+          className="absolute inset-0 overflow-hidden rounded-[30px] border border-[#fff3c4]/90 bg-[linear-gradient(135deg,#fff3bf 0%,#f2d784 18%,#d5b064 40%,#b98739 63%,#936a2d 82%,#e0c077 100%)]"
           style={{
             transform: "translateZ(0px)",
             boxShadow:
@@ -110,7 +110,7 @@ export default function ContactHandCard() {
         >
           <div className="absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(73,51,14,.42)_0.6px,transparent_0.6px)] [background-size:5px_5px]" />
 
-          <div className="absolute -inset-x-1/3 top-[-30%] h-[165%] rotate-[20deg] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent)] opacity-70 blur-[1px]" />
+          <div className="absolute -inset-x-1/3 top-[-30%] h-[165%] rotate-[20deg] bg-[linear-gradient(90deg,transparent,rgba(255,244,200,.42),transparent)] opacity-70 blur-[1px]" />
 
           <motion.div
             aria-hidden="true"
@@ -133,12 +133,21 @@ export default function ContactHandCard() {
             </p>
           </div>
 
-          <div className="absolute left-[8%] bottom-[14%]">
-            <p className="text-[8px] font-medium uppercase tracking-[0.2em] text-[#5a513f] sm:text-[10px]">
-              Observe · Learn · Explore
+          <div className="absolute bottom-[12%] left-[8%]">
+            <p className="text-[6px] font-medium uppercase tracking-[0.24em] text-[#62523a] sm:text-[7px]">
+              SECRETARY
             </p>
-            <p className="mt-1 text-[6px] uppercase tracking-[0.2em] text-[#6a604d] sm:text-[7px]">
-              Astronomy · Space · Curiosity
+            <p className="mt-1 text-[12px] font-semibold tracking-[0.04em] text-[#252019] sm:text-[15px]">
+              Ishaan M
+            </p>
+          </div>
+
+          <div className="absolute bottom-[12%] right-[8%] text-right">
+            <p className="text-[6px] font-medium uppercase tracking-[0.24em] text-[#62523a] sm:text-[7px]">
+              SECRETARY
+            </p>
+            <p className="mt-1 text-[12px] font-semibold tracking-[0.04em] text-[#252019] sm:text-[15px]">
+              Manisha
             </p>
           </div>
 
