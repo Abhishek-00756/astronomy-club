@@ -107,7 +107,7 @@ export default function MembersDirectory({
         </div>
       )}
 
-      <div className="mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-7xl px-6 py-10 sm:px-10 lg:px-16">
         <p className="text-[10px] font-medium uppercase tracking-[0.34em] text-cyan-200/55 sm:text-xs">
           Browse the club
         </p>
@@ -117,7 +117,7 @@ export default function MembersDirectory({
           onChange={(id) => setActiveCategory(id as CategoryKey)}
         />
 
-        <div className="mt-16 flex flex-col gap-5 border-b border-white/[0.07] pb-8 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mt-10 flex flex-col gap-5 border-b border-white/[0.07] pb-8 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-[9px] uppercase tracking-[0.26em] text-cyan-100/42">
               {source.title}
