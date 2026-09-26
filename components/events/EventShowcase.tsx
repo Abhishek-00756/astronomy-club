@@ -32,6 +32,7 @@ const events: Array<{
 ];
 
 function DriftWall({ images }: { images: string[] }) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const cards = [
     ["ASTRO", "THON", "amber"],
     ["ORBIT", "LAB", "blue"],
@@ -60,7 +61,7 @@ function DriftWall({ images }: { images: string[] }) {
         animate={{ x: ["-2%", "2%", "-1%", "-2%"], y: ["0%", "1.5%", "-1%", "0%"] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="grid grid-cols-3 gap-5 opacity-80">
+        <div className="grid grid-cols-3 gap-5">
           {cards.map(([title, subtitle, tone], index) => {
             const image = images[index % Math.max(images.length, 1)];
 
@@ -78,20 +79,29 @@ function DriftWall({ images }: { images: string[] }) {
                   ease: "easeInOut",
                   delay: index * 0.18,
                 }}
-                className="relative aspect-[1.18] overflow-hidden rounded-[22px] border border-white/[0.07] bg-[#0b1016] shadow-[0_25px_60px_rgba(0,0,0,.34)]"
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className={[
+                  "group relative aspect-[1.18] overflow-hidden rounded-[22px] border border-white/[0.07] bg-[#0b1016] shadow-[0_25px_60px_rgba(0,0,0,.34)] transition-all duration-500",
+                  hoveredIndex === index
+                    ? "z-30 scale-[1.055] border-white/20 shadow-[0_30px_80px_rgba(0,0,0,.55)]"
+                    : hoveredIndex !== null
+                      ? "opacity-55"
+                      : "opacity-100",
+                ].join(" ")}
               >
                 {image ? (
                   <img
                     src={image}
                     alt=""
                     draggable={false}
-                    className="absolute inset-0 h-full w-full object-cover opacity-75 transition-transform duration-700 hover:scale-105"
+                    className="absolute inset-0 h-full w-full object-cover opacity-75 transition-all duration-700 ease-out group-hover:scale-[1.2] group-hover:opacity-100"
                   />
                 ) : (
-                  <div className={`absolute inset-0 bg-gradient-to-br ${tones[tone]}`} />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${tones[tone]} transition-transform duration-700 ease-out group-hover:scale-[1.2]`} />
                 )}
 
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,13,.08),rgba(7,9,13,.72))]" />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,13,.04),rgba(7,9,13,.72))] transition-colors duration-500 group-hover:bg-[linear-gradient(180deg,rgba(7,9,13,0),rgba(7,9,13,.34))]" />
 
                 <div className="absolute inset-x-5 bottom-5">
                   <p className="text-[8px] uppercase tracking-[0.26em] text-white/55">
@@ -109,8 +119,6 @@ function DriftWall({ images }: { images: string[] }) {
           })}
         </div>
       </motion.div>
-
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(7,9,13,.32),rgba(7,9,13,.78))]" />
 
       <div className="absolute inset-x-8 bottom-8">
         <p className="text-[9px] uppercase tracking-[0.34em] text-cyan-100/48">
