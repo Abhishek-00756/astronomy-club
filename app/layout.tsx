@@ -4,6 +4,7 @@ import "./globals.css";
 import SiteNav from "@/components/SiteNav";
 import GlobalStarfield from "@/components/GlobalStarfield";
 import ScrollProgress from "@/components/ScrollProgress";
+import ClickSpark from "@/components/ClickSpark";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <GlobalStarfield />
         <ScrollProgress />
+        <ClickSpark />
         <SiteNav />
         {children}
       </body>
