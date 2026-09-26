@@ -118,3 +118,9 @@ body {
     display: none;
   }
 }
+
+
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 820px;
+}
