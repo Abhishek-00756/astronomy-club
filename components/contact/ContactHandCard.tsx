@@ -1,134 +1,165 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
 export default function ContactHandCard() {
-  const hostRef = useRef<HTMLDivElement | null>(null);
-  const visualRef = useRef<HTMLDivElement | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const target = useRef({ x: 0, y: 0 });
-  const current = useRef({ x: 0, y: 0 });
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
 
-  useEffect(() => {
-    const host = hostRef.current;
-    const visual = visualRef.current;
-    if (!host || !visual) return;
+  const springX = useSpring(mx, { stiffness: 180, damping: 22, mass: 0.7 });
+  const springY = useSpring(my, { stiffness: 180, damping: 22, mass: 0.7 });
 
-    const animate = () => {
-      rafRef.current = null;
-      current.current.x += (target.current.x - current.current.x) * 0.09;
-      current.current.y += (target.current.y - current.current.y) * 0.09;
+  const rotateY = useTransform(springX, [-1, 1], [-14, 14]);
+  const rotateX = useTransform(springY, [-1, 1], [10, -10]);
+  const translateX = useTransform(springX, [-1, 1], [-18, 18]);
+  const translateY = useTransform(springY, [-1, 1], [-12, 12]);
+  const shadowX = useTransform(springX, [-1, 1], [-18, 18]);
 
-      const { x, y } = current.current;
-      visual.style.transform =
-        `translate3d(${x * 12}px, ${y * 9}px, 0) rotateX(${-y * 5}deg) rotateY(${x * 8}deg)`;
+  const handleMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    mx.set(Math.max(-1, Math.min(1, x)));
+    my.set(Math.max(-1, Math.min(1, y)));
+  };
 
-      if (
-        Math.abs(target.current.x - current.current.x) > 0.001 ||
-        Math.abs(target.current.y - current.current.y) > 0.001
-      ) {
-        rafRef.current = requestAnimationFrame(animate);
-      }
-    };
-
-    const request = () => {
-      if (rafRef.current === null) {
-        rafRef.current = requestAnimationFrame(animate);
-      }
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      const rect = host.getBoundingClientRect();
-      target.current.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-      target.current.y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-      request();
-    };
-
-    const onPointerLeave = () => {
-      target.current.x = 0;
-      target.current.y = 0;
-      request();
-    };
-
-    host.addEventListener("pointermove", onPointerMove, { passive: true });
-    host.addEventListener("pointerleave", onPointerLeave);
-
-    return () => {
-      host.removeEventListener("pointermove", onPointerMove);
-      host.removeEventListener("pointerleave", onPointerLeave);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
+  const reset = () => {
+    mx.set(0);
+    my.set(0);
+  };
 
   return (
     <div
-      ref={hostRef}
-      className="relative mx-auto w-full max-w-3xl"
-      aria-label="Interactive 3D Astronomy Club gold card"
-      style={{ perspective: "1200px" }}
+      className="relative mx-auto w-full max-w-3xl [perspective:1400px]"
+      onMouseMove={handleMove}
+      onMouseLeave={reset}
+      onTouchMove={(event) => {
+        const touch = event.touches[0];
+        if (!touch) return;
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = ((touch.clientX - rect.left) / rect.width - 0.5) * 2;
+        const y = ((touch.clientY - rect.top) / rect.height - 0.5) * 2;
+        mx.set(Math.max(-1, Math.min(1, x)));
+        my.set(Math.max(-1, Math.min(1, y)));
+      }}
+      onTouchEnd={reset}
     >
-      <div className="pointer-events-none absolute inset-0 rounded-[5rem] bg-[radial-gradient(circle_at_45%_48%,rgba(255,197,92,0.22),transparent_30%),radial-gradient(circle_at_60%_48%,rgba(104,205,255,0.06),transparent_55%)] blur-3xl" />
+      <div className="pointer-events-none absolute inset-[-12%] rounded-[5rem] bg-[radial-gradient(circle_at_45%_48%,rgba(255,197,92,0.24),transparent_30%),radial-gradient(circle_at_60%_48%,rgba(104,205,255,0.08),transparent_52%)] blur-3xl" />
 
-      <div
-        ref={visualRef}
-        className="relative mx-auto aspect-[1.62] w-full max-w-[650px] origin-center transition-transform duration-300 [transform-style:preserve-3d]"
+      <motion.div
+        className="relative mx-auto aspect-[1.62] w-full max-w-[650px] [transform-style:preserve-3d]"
+        style={{
+          rotateX,
+          rotateY,
+          x: translateX,
+          y: translateY,
+          transformPerspective: 1400,
+        }}
+        initial={{ rotateZ: 0, scale: 0.98 }}
+        animate={{
+          rotateZ: [0, 0.45, 0, -0.45, 0],
+          scale: [0.98, 1, 0.98],
+        }}
+        transition={{
+          rotateZ: {
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+          },
+          scale: {
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          },
+        }}
       >
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-[4%] translate-y-[14px] rounded-[30px] bg-[#6f541f]"
+          style={{
+            x: shadowX,
+            transform: "translateZ(-38px) scale(0.985)",
+            boxShadow: "0 42px 70px rgba(0,0,0,.62)",
+          }}
+        />
+
         <div
           aria-hidden="true"
-          className="absolute inset-[3.2%] translate-y-[10px] rounded-[30px] bg-[#806126] shadow-[0_34px_55px_rgba(0,0,0,0.58)]"
-          style={{ transform: "translateZ(-28px)" }}
+          className="absolute inset-[2%] rounded-[30px] border border-[#fff1c7]/55 bg-[linear-gradient(145deg,#fff4c8_0%,#ebd494_16%,#c59d51_51%,#8e672d_82%,#d3b66d_100%)]"
+          style={{
+            transform: "translateZ(-16px)",
+            boxShadow:
+              "inset 3px 3px 0 rgba(255,255,255,.4), inset -6px -7px 0 rgba(72,45,6,.24), 0 28px 60px rgba(0,0,0,.45)",
+          }}
         />
 
         <div
-          className="absolute inset-[2%] rounded-[30px] border border-[#f9e6ad]/55 bg-[linear-gradient(145deg,#fff4c8_0%,#ecd69a_14%,#c9a85d_48%,#9b7635_82%,#e0c47f_100%)] shadow-[inset_2px_2px_0_rgba(255,255,255,0.42),inset_-5px_-6px_0_rgba(76,51,9,0.28),0_30px_65px_rgba(0,0,0,0.42)]"
-          style={{ transform: "translateZ(-8px)" }}
-        />
-
-        <div
-          className="absolute inset-0 overflow-hidden rounded-[30px] border border-[#fff1bf]/85 bg-[linear-gradient(135deg,#fff0b9_0%,#e6cb86_22%,#c8a35a_54%,#a27c3c_78%,#d7b96f_100%)] shadow-[inset_1px_1px_0_rgba(255,255,255,0.55),inset_-1px_-2px_0_rgba(49,33,8,0.36),0_24px_60px_rgba(0,0,0,0.36)]"
-          style={{ transform: "translateZ(0px)" }}
+          className="absolute inset-0 overflow-hidden rounded-[30px] border border-[#fff3c4]/90 bg-[linear-gradient(135deg,#fff2bd 0%,#e8cc88 20%,#c8a45d 50%,#9a7436 78%,#ddc17a 100%)]"
+          style={{
+            transform: "translateZ(0px)",
+            boxShadow:
+              "inset 2px 2px 0 rgba(255,255,255,.52), inset -2px -3px 0 rgba(53,34,5,.34), 0 24px 52px rgba(0,0,0,.36)",
+          }}
         >
-          <div className="absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(75,53,17,0.45)_0.6px,transparent_0.6px)] [background-size:5px_5px]" />
-          <div className="absolute -inset-x-1/3 top-[-35%] h-[170%] rotate-[18deg] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.28),transparent)] opacity-65 blur-[1px]" />
-          <div className="absolute inset-x-0 top-0 h-[26%] bg-[linear-gradient(180deg,rgba(255,255,255,0.22),transparent)]" />
-          <div className="absolute inset-x-0 bottom-0 h-[30%] bg-[linear-gradient(0deg,rgba(75,48,10,0.18),transparent)]" />
+          <div className="absolute inset-0 opacity-35 [background-image:radial-gradient(rgba(73,51,14,.42)_0.6px,transparent_0.6px)] [background-size:5px_5px]" />
+
+          <div className="absolute -inset-x-1/3 top-[-30%] h-[165%] rotate-[20deg] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent)] opacity-70 blur-[1px]" />
+
+          <motion.div
+            aria-hidden="true"
+            className="absolute -top-[20%] h-[140%] w-[28%] bg-gradient-to-r from-transparent via-white/55 to-transparent blur-2xl"
+            style={{
+              left: useTransform(springX, [-1, 1], ["-25%", "105%"]),
+              rotate: 18,
+            }}
+          />
+
+          <div className="absolute inset-x-0 top-0 h-[27%] bg-[linear-gradient(180deg,rgba(255,255,255,.24),transparent)]" />
+          <div className="absolute inset-x-0 bottom-0 h-[32%] bg-[linear-gradient(0deg,rgba(74,48,11,.2),transparent)]" />
 
           <div className="absolute left-[8%] top-[13%]">
-            <p className="text-[13px] font-bold uppercase tracking-[0.24em] text-[#1c1c1b] sm:text-[16px]">
+            <p className="text-[13px] font-bold uppercase tracking-[0.24em] text-[#181817] sm:text-[16px]">
               Astronomy Club
             </p>
-            <p className="mt-2 text-[7px] font-medium uppercase tracking-[0.22em] text-[#4b4437] sm:text-[9px]">
+            <p className="mt-2 text-[7px] font-medium uppercase tracking-[0.22em] text-[#494336] sm:text-[9px]">
               Army Institute of Technology · Pune
             </p>
           </div>
 
           <div className="absolute left-[8%] bottom-[14%]">
-            <p className="text-[8px] font-medium uppercase tracking-[0.2em] text-[#5d5443] sm:text-[10px]">
+            <p className="text-[8px] font-medium uppercase tracking-[0.2em] text-[#5a513f] sm:text-[10px]">
               Observe · Learn · Explore
             </p>
-            <p className="mt-1 text-[6px] uppercase tracking-[0.2em] text-[#6c634f] sm:text-[7px]">
+            <p className="mt-1 text-[6px] uppercase tracking-[0.2em] text-[#6a604d] sm:text-[7px]">
               Astronomy · Space · Curiosity
             </p>
           </div>
 
-          <div className="absolute right-[8%] top-[12%] h-9 w-9 rounded-full border border-[#3c3527]/45 sm:h-12 sm:w-12">
-            <div className="absolute inset-[27%] rounded-full border border-[#3c3527]/50" />
-            <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#3c3527]/70 sm:h-2 sm:w-2" />
+          <div className="absolute right-[8%] top-[12%] h-9 w-9 rounded-full border border-[#3a3325]/48 sm:h-12 sm:w-12">
+            <div className="absolute inset-[27%] rounded-full border border-[#3a3325]/52" />
+            <div className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#3a3325]/70 sm:h-2 sm:w-2" />
           </div>
 
-          <div className="absolute bottom-[12%] right-[8%] h-2 w-[24%] rounded-full bg-[#ffffff]/18 blur-[2px]" />
+          <div className="absolute bottom-[12%] right-[8%] h-2 w-[24%] rounded-full bg-white/20 blur-[2px]" />
         </div>
 
-        <div
+        <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 rounded-[34px] bg-[radial-gradient(circle_at_24%_20%,rgba(255,255,255,0.24),transparent_18%),radial-gradient(circle_at_76%_36%,rgba(255,241,183,0.16),transparent_20%)] mix-blend-screen"
-          style={{ transform: "translateZ(18px)" }}
+          className="pointer-events-none absolute inset-0 rounded-[34px] bg-[radial-gradient(circle_at_24%_20%,rgba(255,255,255,.25),transparent_18%),radial-gradient(circle_at_76%_34%,rgba(255,241,183,.18),transparent_21%)] mix-blend-screen"
+          style={{
+            transform: "translateZ(30px)",
+            opacity: useTransform(springX, [-1, 0, 1], [0.7, 1, 0.7]),
+          }}
         />
+      </motion.div>
 
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-[12%] -bottom-[6%] h-[18%] rounded-full bg-black/45 blur-2xl"
-        />
+      <div className="pointer-events-none mx-auto mt-5 flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.025] px-3 py-1.5 text-[8px] uppercase tracking-[0.26em] text-white/30">
+        Move your cursor over the card
       </div>
     </div>
   );
