@@ -230,11 +230,23 @@ export default function Home() {
       </section>
 
       <footer className="lazy-section border-t border-white/[0.05] bg-[#05070A]/[0.45] px-6 py-10 sm:px-10 lg:px-16">
-        <ScrollReveal className="mx-auto flex max-w-7xl flex-col gap-3 text-[9px] uppercase tracking-[0.22em] text-white/25 sm:flex-row sm:items-center sm:justify-between">
-          <span>Astronomy Club · Army Institute of Technology · Pune</span>
-          <a href="https://www.instagram.com/astro.club_ait/" target="_blank" rel="noreferrer" className="transition hover:text-white/55">
-            @astro.club_ait
-          </a>
+        <ScrollReveal className="mx-auto flex max-w-7xl flex-col items-center gap-4 text-center">
+          <div className="flex flex-col gap-2 text-[9px] uppercase tracking-[0.22em] text-white/25 sm:flex-row sm:items-center sm:gap-4">
+            <span>© 2026 Astronomy Club · Army Institute of Technology · Pune</span>
+            <span className="hidden text-white/10 sm:inline">•</span>
+            <a
+              href="https://www.instagram.com/astro.club_ait/"
+              target="_blank"
+              rel="noreferrer"
+              className="transition hover:text-white/55"
+            >
+              @astro.club_ait
+            </a>
+          </div>
+
+          <p className="text-[10px] tracking-[0.12em] text-white/30">
+            Made with <span className="text-red-300/90">❤️</span> by Abhishek
+          </p>
         </ScrollReveal>
       </footer>
     </main>
