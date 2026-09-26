@@ -28,7 +28,7 @@ export default function FlowingCategories({
   const highlighted = hovered ?? active;
 
   return (
-    <div className="mt-12 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.018] p-2">
+    <div className="mt-6 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.018] p-2">
       <div className="flex min-h-20 flex-col gap-2 lg:flex-row">
         {categories.map((category) => {
           const isHighlighted = highlighted === category.id;
