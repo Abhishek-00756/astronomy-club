@@ -192,7 +192,7 @@ function MoonSystem({ interaction }: { interaction: SpaceInteraction }) {
       <Float speed={0.5} rotationIntensity={0.04} floatIntensity={0.035}>
         <group position={[4.25, 0, 0]}>
           <mesh ref={moonRef}>
-            <sphereGeometry args={[0.48, 64, 64]} />
+            <sphereGeometry args={[0.48, 48, 48]} />
             <meshStandardMaterial
               map={moonTexture}
               color="#ededed"
@@ -202,7 +202,7 @@ function MoonSystem({ interaction }: { interaction: SpaceInteraction }) {
           </mesh>
 
           <mesh scale={1.055}>
-            <sphereGeometry args={[0.48, 40, 40]} />
+            <sphereGeometry args={[0.48, 32, 32]} />
             <meshBasicMaterial
               color="#d8f3ff"
               transparent
@@ -296,7 +296,7 @@ export default function CelestialSystem({
       <Float speed={0.2} rotationIntensity={0.01} floatIntensity={0.035}>
         <group rotation={[0, -0.7, 0.02]}>
           <mesh ref={earthRef}>
-            <sphereGeometry args={[2.18, 128, 128]} />
+            <sphereGeometry args={[2.18, 96, 96]} />
             <meshPhongMaterial
               map={earthTexture}
               normalMap={normalTexture}
@@ -309,7 +309,7 @@ export default function CelestialSystem({
           </mesh>
 
           <mesh ref={nightRef} scale={1.006}>
-            <sphereGeometry args={[2.18, 112, 112]} />
+            <sphereGeometry args={[2.18, 80, 80]} />
             <meshBasicMaterial
               map={lightsTexture}
               transparent
@@ -321,7 +321,7 @@ export default function CelestialSystem({
           </mesh>
 
           <mesh ref={cloudsRef} scale={1.014}>
-            <sphereGeometry args={[1.92, 112, 112]} />
+            <sphereGeometry args={[1.92, 80, 80]} />
             <meshPhongMaterial
               map={cloudsTexture}
               transparent
